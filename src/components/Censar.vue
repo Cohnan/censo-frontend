@@ -4,14 +4,13 @@
     <h2>Agregar Persona</h2>
 
     <form v-on:submit.prevent="metAgregarPersona">
-      <input
-        type="number"
-        placeholder="Número de Documento"
+      <!--label for="inpNDoc">Nombre:</label-->
+      <input type="number" placeholder="Número de Documento" id="inpNDoc" v-model="persona.doc_id"
       />
       <br />
-      <input type="text" placeholder="Nombre Completo" />
+      <input type="text" placeholder="Nombre Completo" v-model="persona.nombre"/>
       <br />
-      <input type="date" placeholder="Fecha de Nacimiento" />
+      <input type="date" placeholder="Fecha de Nacimiento" v-model="persona.fechadenacimiento"/>
       <br />
       <button type="submit">Iniciar Sesion</button>
     </form>
@@ -29,8 +28,10 @@ export default {
 
   // Valores iniciales de variables
   data: function () {
-    return {
-      persona: {
+
+    return { 
+      // Estos valores aparecerán en el formularion en cuanto se cargue la página
+      persona: { 
         tipo_doc: "",
         doc_id: null,
         nombre: "",
