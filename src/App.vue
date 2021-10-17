@@ -1,13 +1,32 @@
 <template>
-  <div id="nav">
+  <div id="nav"> <!-- Tag <nav>? -->
     <router-link to="/" id="linknav">Registros</router-link> |
-    <router-link to="/about" id="linknav">Agregar</router-link>|
+    <router-link to="/censoIndigena" id="linkAgregar">Agregar</router-link>|
     <router-link to="" id="linknav">Estadisticas</router-link>|
-    <a id="buttonreg" href="#" class="button">registrarse</a>
+    <!--a id="buttonreg" href="#" class="button">registrarse</a>-->
+
   </div>
+
+  <router-view/>
+  App.vue, despues del router-view
 
   <!-- <router-view />-->
 </template>
+
+
+<script>
+export default {
+  name : "Componente Agregar Persona",
+
+  methods: {
+    cargarAgregarPersona: function() {
+      this.$router.push({ name: "pathAgregarPersona" });
+    },
+  },
+};
+</script>
+
+
 
 <style>
 #app {
