@@ -15,12 +15,17 @@
         El uso de `:` antes del nombre de un atributo hace que Vue intervenga
         Por ejemplo: :value="nombre" permite que el atribute value de la etiquet  option tenga el valor variable nombre
         -->
-        <option v-for="(valor, nombre) in tipoDocumentos" :key="nombre" :value="nombre"> {{ valor }} </option>
-        
+        <option
+          v-for="(valor, nombre) in tipoDocumentos"
+          :key="nombre"
+          :value="nombre"
+        >
+          {{ valor }}
+        </option>
       </select>
 
       <br />
-      
+
       <!-- Número de Documento -->
       <!--label for="inpNDoc">Numero de Documento:</label-->
       <input
@@ -30,7 +35,7 @@
         v-model="persona.doc_id"
       />
       <br />
-      
+
       <!-- Nombre -->
       <input
         type="text"
@@ -48,31 +53,54 @@
       <br />
 
       <!-- Departamento de Residencia -->
-      <select id="inpDepartamento" v-model="persona.id_ocupacion" placeholder="Departamento de Residencia">
-        <option value=null>Dapartamento de Residencia</option>
-        <option v-for="departamento of departamentos" :key="departamento" :value="departamento">{{ departamento }}</option>
+      <select
+        id="inpDepartamento"
+        v-model="persona.id_ocupacion"
+        placeholder="Departamento de Residencia"
+      >
+        <option value="null">Dapartamento de Residencia</option>
+        <option
+          v-for="departamento of departamentos"
+          :key="departamento"
+          :value="departamento"
+        >
+          {{ departamento }}
+        </option>
       </select>
       <br />
 
-      
       <!-- Ocupación -->
       <select id="inpOcupacion" v-model="persona.id_ocupacion">
-        <option value=null>Ocupación</option>
-        <option v-for="ocupacion in ocupaciones" :key="ocupacion" :value="ocupacion">{{ ocupacion }} </option>
+        <option value="null">Ocupación</option>
+        <option
+          v-for="ocupacion in ocupaciones"
+          :key="ocupacion.id"
+          :value="ocupacion.id"
+        >
+          {{ ocupacion.nombre }}
+        </option>
       </select>
       <br />
 
       <!-- Etnia -->
       <select id="inpOEtnia" v-model="persona.id_etnia">
-        <option value=null>Etnia</option>
-        <option v-for="etnia in etnias" :key="etnia" :value="etnia">{{ etnia }} </option>
+        <option value="null">Etnia</option>
+        <option v-for="etnia in etnias" :key="etnia.id" :value="etnia.id">
+          {{ etnia.nombre }}
+        </option>
       </select>
       <br />
 
       <!-- Resguardo -->
       <select id="inpResguardo" v-model="persona.id_resguardo">
-        <option value=null>Resguardo</option>
-        <option v-for="resguardo in resgurdos" :key="resguardo" :value="resguardo">{{ resguardo }} </option>
+        <option value="null">Resguardo</option>
+        <option
+          v-for="resguardo in resgurdos"
+          :key="resguardo.id"
+          :value="resguardo.id"
+        >
+          {{ resguardo.nombre }}
+        </option>
       </select>
       <br />
 
@@ -80,18 +108,16 @@
       <button type="submit">Agregar</button>
       <br />
     </form>
+
+    <button v-on:click="metTraerOcupaciones">Actualizar Ocupaciones</button>
   </div>
 
-
-  <div>
-    Caja en Censar.vue, luego de la caja de formulario <br />
-
-  </div>
+  <div>Caja en Censar.vue, luego de la caja de formulario <br /></div>
 </template>
 
 <!-- Parte JavaScript de mi componente -->
 <script>
-//import axios from "axios"; // Para procesar HTTP requests
+import axios from "axios"; // Para procesar HTTP requests
 
 export default {
   //Nombre del componente?
@@ -113,12 +139,12 @@ export default {
         id_etnia: null,
         id_resguardo: null,
       },
-      
+
       // JSON de tipos de documentos: la llave es el valor que se envía, el valor es lo que el usuario lee
       tipoDocumentos: {
-          CC: "Cédula de Ciudadanía",
-          TI: "Tarjeta de Identidad",
-          Otro: "Otro"
+        CC: "Cédula de Ciudadanía",
+        TI: "Tarjeta de Identidad",
+        Otro: "Otro",
       },
 
       // Lista de Departamentos
@@ -129,24 +155,42 @@ export default {
 
       // Lista de Etnias
       etnias: [],
-      
-      // Lista de Resguardos
-      resguardos: [],
 
+      // Lista de Resguardos
+      resguardos: []
     };
   },
 
   // Funcion a ejecutar al cargar la pagina
-  created: async function () {},
-  
+  created: async function () {
+    this.metTraerOcupaciones();
+  },
+
   // Métodos auxiliares a ejecutar dadas ciertas acciones en este componente
   methods: {
     // Metodo para enviar formulario de Registro de Persona
     metAgregarPersona: function () {
       alert(
         "Se intento registrar una persona con los siguientes datos:" +
-          Object.entries(this.persona) + Object.values(this.persona)
+          Object.entries(this.persona) +
+          Object.values(this.persona)
       );
+    },
+
+    metTraerOcupaciones: async function () {
+      alert("Tratando de traer ocupaciones");
+      axios
+        .get('http://127.0.0.1:8000/ocupaciones/')
+        .then(respuesta => {
+          alert("Se ejecuto el get, ahora se actualizara la lista");
+          this.ocupaciones = respuesta.data;
+          alert("Se trajeron las ocupaciones");
+        })
+        .catch(error => {
+          alert("Errores: ", error);
+        });
+
+      alert(this.ocupaciones);
     },
   },
 };
