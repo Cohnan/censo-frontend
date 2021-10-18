@@ -4,36 +4,67 @@
     <h2>Agregar Persona</h2>
 
     <form v-on:submit.prevent="metAgregarPersona">
-      
-      <select name="Nombre Combobox Tipo de Doc" id="inpTipoDoc" v-model="persona.tipo_doc">
+        <!-- Tipo de Documento -->
+      <select
+        name="Nombre Combobox Tipo de Doc"
+        id="inpTipoDoc"
+        v-model="persona.tipo_doc"
+      >
         <option value="">Tipo de Documento</option>
-        <option value="CC">Cédula de Ciudadanía</option>
-        <option value="TI">Tarjeta de Identidad</option>
-        <option value="Otro">Otro</option>
+        <option v-for="(valor, nombre) in tipoDocumentos" value="{{ nombre }}"> {{ valor }} </option>
       </select>
       <br />
-
-      <!--label for="inpNDoc">Nombre:</label-->
-      <input type="number" placeholder="Número de Documento" id="inpNDoc" v-model="persona.doc_id"
+      
+      <!-- Número de Documento -->
+      <!--label for="inpNDoc">Numero de Documento:</label-->
+      <input
+        type="number"
+        placeholder="Número de Documento"
+        id="inpNDoc"
+        v-model="persona.doc_id"
+      />
+      <br />
+      
+      <!-- Nombre -->
+      <input
+        type="text"
+        placeholder="Nombre Completo"
+        v-model="persona.nombre"
       />
       <br />
 
-      <input type="text" placeholder="Nombre Completo" v-model="persona.nombre"/>
+      <!-- Fecha de Nacimiento -->
+      <input
+        type="date"
+        placeholder="Fecha de Nacimiento"
+        v-model="persona.fechadenacimiento"
+      />
       <br />
 
-      <input type="date" placeholder="Fecha de Nacimiento" v-model="persona.fechadenacimiento"/>
-      <br />
-
+      <!-- Ocupación -->
       <select id="inpOcupacion" v-model="persona.id_ocupacion">
-        <option value="">Ocupación</option>
+        <option value=null>Ocupación</option>
       </select>
       <br />
-      
+
+      <!-- Departamento de Residencia -->
+      <select id="inpDepartamento" v-model="persona.id_ocupacion" placeholder="Departamento de Residencia">
+        <option value=null>Dapartamento de Residencia</option>
+        <option v-for="departamento of departamentos" value="{{ departamento }}">{{ departamento }}</option>
+      </select>
+      <br />
+
+      <!-- Enviar Formulario -->
       <button type="submit">Agregar</button>
       <br />
     </form>
   </div>
-  <div>Caja en Censar, luego de la caja de formulario <br /></div>
+
+
+  <div>
+    Caja en Censar.vue, luego de la caja de formulario <br />
+
+  </div>
 </template>
 
 <!-- Parte JavaScript de mi componente -->
@@ -46,11 +77,10 @@ export default {
 
   // Valores iniciales de variables
   data: function () {
-
-    return { 
+    return {
       // Estos valores aparecerán en el formularion en cuanto se cargue la página
       // Define el v-modelo?
-      persona: { 
+      persona: {
         tipo_doc: "",
         doc_id: null,
         nombre: "",
@@ -60,19 +90,27 @@ export default {
         id_etnia: null,
         id_resguardo: null,
       },
+
+      departamentos: ["Amazonas", "Boyacá", "Guajira", "Cundinamarca"],
+
+      tipoDocumentos: {
+          CC: "Cédula de Ciudadanía",
+          TI: "Tarjeta de Identidad",
+          Otro: "Otro"
+      }
     };
   },
 
   // Funcion a ejecutar al cargar la pagina
-  created: async function () {
-    
-  },
+  created: async function () {},
 
   methods: {
     metAgregarPersona: function () {
-      alert("Se intento registrar una persona con los siguientes datos:" + 
-      Object.keys(this.persona) + 
-      Object.values(this.persona));
+      alert(
+        "Se intento registrar una persona con los siguientes datos:" +
+          Object.keys(this.persona) +
+          Object.values(this.persona)
+      );
     },
   },
 };
