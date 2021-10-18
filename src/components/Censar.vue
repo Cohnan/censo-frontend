@@ -83,7 +83,7 @@
       <br />
 
       <!-- Etnia -->
-      <select id="inpOEtnia" v-model="persona.id_etnia">
+      <select id="inpEtnia" v-model="persona.id_etnia">
         <option value="null">Etnia</option>
         <option v-for="etnia in etnias" :key="etnia.id" :value="etnia.id">
           {{ etnia.nombre }}
@@ -95,7 +95,7 @@
       <select id="inpResguardo" v-model="persona.id_resguardo">
         <option value="null">Resguardo</option>
         <option
-          v-for="resguardo in resgurdos"
+          v-for="resguardo in resguardos"
           :key="resguardo.id"
           :value="resguardo.id"
         >
@@ -164,6 +164,8 @@ export default {
   // Funcion a ejecutar al cargar la pagina
   created: async function () {
     this.metTraerOcupaciones();
+    this.metTraerEtnias();
+    this.metTraerResguardos();
   },
 
   // Métodos auxiliares a ejecutar dadas ciertas acciones en este componente
@@ -178,19 +180,36 @@ export default {
     },
 
     metTraerOcupaciones: async function () {
-      alert("Tratando de traer ocupaciones");
       axios
         .get('http://127.0.0.1:8000/ocupaciones/')
         .then(respuesta => {
-          alert("Se ejecuto el get, ahora se actualizara la lista");
           this.ocupaciones = respuesta.data;
-          alert("Se trajeron las ocupaciones");
         })
         .catch(error => {
           alert("Errores: ", error);
         });
+    },
 
-      alert(this.ocupaciones);
+    metTraerEtnias: async function () {
+      axios
+        .get('http://127.0.0.1:8000/etnias/')
+        .then(respuesta => {
+          this.etnias = respuesta.data;
+        })
+        .catch(error => {
+          alert("Errores: ", error);
+        });
+    },
+
+    metTraerResguardos: async function () {
+      axios
+        .get('http://127.0.0.1:8000/resguardos/')
+        .then(respuesta => {
+          this.resguardos = respuesta.data;
+        })
+        .catch(error => {
+          alert("Errores: ", error);
+        });
     },
   },
 };
