@@ -55,7 +55,7 @@
       <!-- Departamento de Residencia -->
       <select
         id="inpDepartamento"
-        v-model="persona.id_ocupacion"
+        v-model="persona.departamento"
         placeholder="Departamento de Residencia"
       >
         <option value="null">Dapartamento de Residencia</option>
