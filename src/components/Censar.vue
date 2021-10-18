@@ -58,7 +58,7 @@
         v-model="persona.departamento"
         placeholder="Departamento de Residencia"
       >
-        <option value="null">Dapartamento de Residencia</option>
+        <option value="">Dapartamento de Residencia</option>
         <option
           v-for="departamento of departamentos"
           :key="departamento"
