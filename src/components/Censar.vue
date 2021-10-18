@@ -113,19 +113,32 @@
       <br />
     </form>
 
-    <button v-on:click="metTraerOcupaciones">Actualizar Ocupaciones</button>
+    <div class="prueba">
+        <button v-on:click="metTraerOcupaciones">Actualizar Ocupaciones</button>
+
+        <button v-on:click="metAbrirMOcupaciones"> CRUD Ocupaciones </button>
+        <Modal v-show="modalOcupacionesEsVisible" v-on:mensCerrarMOcupaciones="metCerrarMOcupaciones"/>
+    </div>
   </div>
 
   <div>Caja en Censar.vue, luego de la caja de formulario <br /></div>
+  
 </template>
 
 <!-- Parte JavaScript de mi componente -->
 <script>
 import axios from "axios"; // Para procesar HTTP requests
+import CompOcupaciones from "./Ocupaciones.vue"; // Importar el componente de Ocupaciones
 
 export default {
+  
+
   //Nombre del componente?
   name: "Censo",
+
+  components: {
+      CompOcupaciones,
+  },
 
   // Valores iniciales de variables
   data: function () {
@@ -162,6 +175,8 @@ export default {
 
       // Lista de Resguardos
       resguardos: [],
+
+      modalOcupacionesEsVisible: false,
     };
   },
 
@@ -219,7 +234,17 @@ export default {
           alert("Errores: ", error);
         });
     },
+
+    metAbrirMOcupaciones: function () {
+        this.modalOcupacionesEsVisible = false;
+    },
+
+    metAbrirMOcupaciones: function() {
+        this.modalOcupacionesEsVisible = true;
+    }
   },
+
+  // Modelos adicionales?
 };
 </script>
 
