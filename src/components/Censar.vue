@@ -85,7 +85,11 @@
       <!-- Etnia -->
       <select id="inpEtnia" v-model="persona.id_etnia">
         <option value="null">Etnia</option>
-        <option v-for="etnia in etnias" :key="etnia.id_etnia" :value="etnia.id_etnia">
+        <option
+          v-for="etnia in etnias"
+          :key="etnia.id_etnia"
+          :value="etnia.id_etnia"
+        >
           {{ etnia.nombre }}
         </option>
       </select>
@@ -157,7 +161,7 @@ export default {
       etnias: [],
 
       // Lista de Resguardos
-      resguardos: []
+      resguardos: [],
     };
   },
 
@@ -173,41 +177,45 @@ export default {
     // Metodo para enviar formulario de Registro de Persona
     metAgregarPersona: function () {
       alert(
-        "Se intento registrar una persona con los siguientes datos:" +
-          Object.entries(this.persona) +
-          Object.values(this.persona)
+        "Se intentara registrar una persona con los siguientes datos:" +
+          Object.entries(this.persona)
       );
+
+      axios
+        .post("http://127.0.0.1:8000/censoIndigena/censar/", this.persona)
+        .then((respuesta) => {alert("Persona agregada exitosamente!: " + respuesta.data);})
+        .catch((error) => {alert("Errores: " + error)});
     },
 
     metTraerOcupaciones: async function () {
       axios
-        .get('http://127.0.0.1:8000/ocupaciones/')
-        .then(respuesta => {
+        .get("http://127.0.0.1:8000/ocupaciones/")
+        .then((respuesta) => {
           this.ocupaciones = respuesta.data;
         })
-        .catch(error => {
+        .catch((error) => {
           alert("Errores: ", error);
         });
     },
 
     metTraerEtnias: async function () {
       axios
-        .get('http://127.0.0.1:8000/etnias/')
-        .then(respuesta => {
+        .get("http://127.0.0.1:8000/etnias/")
+        .then((respuesta) => {
           this.etnias = respuesta.data;
         })
-        .catch(error => {
+        .catch((error) => {
           alert("Errores: ", error);
         });
     },
 
     metTraerResguardos: async function () {
       axios
-        .get('http://127.0.0.1:8000/resguardos/')
-        .then(respuesta => {
+        .get("http://127.0.0.1:8000/resguardos/")
+        .then((respuesta) => {
           this.resguardos = respuesta.data;
         })
-        .catch(error => {
+        .catch((error) => {
           alert("Errores: ", error);
         });
     },
