@@ -11,8 +11,10 @@
         v-model="persona.tipo_doc"
       >
         <option value="">Tipo de Documento</option>
-        <option v-for="(valor, nombre) in tipoDocumentos" value="{{ nombre }}"> {{ valor }} </option>
+        <option v-for="(valor, nombre) in tipoDocumentos" :key="nombre" :value="nombre"> {{ valor }} </option>
+        
       </select>
+
       <br />
       
       <!-- Número de Documento -->
@@ -44,7 +46,7 @@
       <!-- Departamento de Residencia -->
       <select id="inpDepartamento" v-model="persona.id_ocupacion" placeholder="Departamento de Residencia">
         <option value=null>Dapartamento de Residencia</option>
-        <option v-for="departamento of departamentos" value="{{ departamento }}">{{ departamento }}</option>
+        <option v-for="departamento of departamentos" :key="departamento" :value="departamento">{{ departamento }}</option>
       </select>
       <br />
 
@@ -114,8 +116,7 @@ export default {
     metAgregarPersona: function () {
       alert(
         "Se intento registrar una persona con los siguientes datos:" +
-          Object.keys(this.persona) +
-          Object.values(this.persona)
+          Object.entries(this.persona) + Object.values(this.persona)
       );
     },
   },
