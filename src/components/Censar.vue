@@ -4,13 +4,17 @@
     <h2>Agregar Persona</h2>
 
     <form v-on:submit.prevent="metAgregarPersona">
-        <!-- Tipo de Documento -->
+      <!-- Tipo de Documento -->
       <select
         name="Nombre Combobox Tipo de Doc"
         id="inpTipoDoc"
         v-model="persona.tipo_doc"
       >
         <option value="">Tipo de Documento</option>
+        <!-- Generación de múltiples Options usando un for:
+        El uso de `:` antes del nombre de un atributo hace que Vue intervenga
+        Por ejemplo: :value="nombre" permite que el atribute value de la etiquet  option tenga el valor variable nombre
+        -->
         <option v-for="(valor, nombre) in tipoDocumentos" :key="nombre" :value="nombre"> {{ valor }} </option>
         
       </select>
@@ -54,6 +58,21 @@
       <!-- Ocupación -->
       <select id="inpOcupacion" v-model="persona.id_ocupacion">
         <option value=null>Ocupación</option>
+        <option v-for="ocupacion in ocupaciones" :key="ocupacion" :value="ocupacion">{{ ocupacion }} </option>
+      </select>
+      <br />
+
+      <!-- Etnia -->
+      <select id="inpOEtnia" v-model="persona.id_etnia">
+        <option value=null>Etnia</option>
+        <option v-for="etnia in etnias" :key="etnia" :value="etnia">{{ etnia }} </option>
+      </select>
+      <br />
+
+      <!-- Resguardo -->
+      <select id="inpResguardo" v-model="persona.id_resguardo">
+        <option value=null>Resguardo</option>
+        <option v-for="resguardo in resgurdos" :key="resguardo" :value="resguardo">{{ resguardo }} </option>
       </select>
       <br />
 
@@ -95,15 +114,25 @@ export default {
         id_resguardo: null,
       },
       
-      // Lista de Departamentos
-      departamentos: ["Amazonas", "Boyacá", "Guajira", "Cundinamarca"],
-      
       // JSON de tipos de documentos: la llave es el valor que se envía, el valor es lo que el usuario lee
       tipoDocumentos: {
           CC: "Cédula de Ciudadanía",
           TI: "Tarjeta de Identidad",
           Otro: "Otro"
-      }
+      },
+
+      // Lista de Departamentos
+      departamentos: ["Amazonas", "Boyacá", "Guajira", "Cundinamarca"],
+
+      // Lista de Ocupaciones
+      ocupaciones: [],
+
+      // Lista de Etnias
+      etnias: [],
+      
+      // Lista de Resguardos
+      resguardos: [],
+
     };
   },
 
