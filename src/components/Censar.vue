@@ -74,8 +74,8 @@
         <option value="null">Ocupación</option>
         <option
           v-for="ocupacion in ocupaciones"
-          :key="ocupacion.id"
-          :value="ocupacion.id"
+          :key="ocupacion.id_ocupacion"
+          :value="ocupacion.id_ocupacion"
         >
           {{ ocupacion.nombre }}
         </option>
@@ -85,7 +85,7 @@
       <!-- Etnia -->
       <select id="inpEtnia" v-model="persona.id_etnia">
         <option value="null">Etnia</option>
-        <option v-for="etnia in etnias" :key="etnia.id" :value="etnia.id">
+        <option v-for="etnia in etnias" :key="etnia.id_etnia" :value="etnia.id_etnia">
           {{ etnia.nombre }}
         </option>
       </select>
@@ -96,8 +96,8 @@
         <option value="null">Resguardo</option>
         <option
           v-for="resguardo in resguardos"
-          :key="resguardo.id"
-          :value="resguardo.id"
+          :key="resguardo.id_resguardo"
+          :value="resguardo.id_resguardo"
         >
           {{ resguardo.nombre }}
         </option>
