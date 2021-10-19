@@ -1,22 +1,3 @@
-<script>
-import OcupacionesComp from "./OcupacionesComp.vue";
-
-export default {
-  name: "OcupacionesModalComp",
-  methods: {
-    metCerrarMOcupaciones() {
-      this.$emit("msjCerrarMOcupaciones");
-    },
-  },
-
-  components: {
-    OcupacionesComp,
-  },
-
-  props: ['ocupaciones']
-};
-</script>
-
 <template>
   <!-- Llena toda la pantalla -->
   <div class="ModalOcupBack">
@@ -35,7 +16,10 @@ export default {
       </header>
 
       <!-- El Componente con el CRUD de Ocupaciones -->
-      <OcupacionesComp :ocupaciones="this.ocupaciones"/>
+      <OcupacionesComp
+        :ocupacionesProp="this.ocupacionesProp"
+        v-on:MsjActualizadasOcupaciones="metReenviarMsjOcupaciones"
+      />
 
       <button v-on:click="metCerrarMOcupaciones" id="btnCerrarOcupModal">
         Cerrar
@@ -43,6 +27,40 @@ export default {
     </div>
   </div>
 </template>
+
+
+
+
+
+<script>
+import OcupacionesComp from "./OcupacionesComp.vue";
+
+export default {
+  name: "OcupacionesModalComp",
+  methods: {
+    metCerrarMOcupaciones() {
+      this.$emit("msjCerrarMOcupaciones");
+    },
+
+    metReenviarMsjOcupaciones() {
+      /*alert(
+        "Se esta reenviando el mensaje de actualizacion en OcupacionesModal"
+      );*/
+      this.$emit("MsjActualizadasOcupaciones");
+    },
+  },
+
+  components: {
+    OcupacionesComp,
+  },
+
+  props: ["ocupacionesProp"],
+};
+</script>
+
+
+
+
 
 <style>
 .ModalOcupBack {

@@ -70,7 +70,7 @@
       <br />
 
       <!-- Ocupación -->
-      <select id="inpOcupacion" v-model="persona.id_ocupacion">
+      <select id="inpOcupacion" v-model="persona.id_ocupacion" :key="this.ocupaciones">
         <option value="null">Ocupación</option>
         <option
           v-for="ocupacion in ocupaciones"
@@ -118,20 +118,23 @@
       <OcupacionesModalC
         v-show="modalOcupacionesEsVisible"
         v-on:msjCerrarMOcupaciones="metCerrarMOcupaciones"
-        :ocupaciones="this.ocupaciones"
+        v-on:MsjActualizadasOcupaciones="metTraerOcupaciones" 
+        :ocupacionesProp="this.ocupaciones"
+        :key="this.ocupaciones[this.ocupaciones.length -1].id_ocupacion"       
       />
 
 
     </div>
-    <!--iv class="prueba">
-        <button v-on:click="metTraerOcupaciones">Actualizar Ocupaciones</button> <br />
-
-        Despues del Modal
-    </div-->
+    
   </div>
 
   <div>Caja en Censar.vue, luego de la caja de formulario <br /></div>
 </template>
+
+
+
+
+
 
 <!-- Parte JavaScript de mi componente -->
 <script>
@@ -187,7 +190,7 @@ export default {
   },
 
   // Funcion a ejecutar al cargar la pagina
-  created: async function () {
+  created: function () { 
     this.metTraerOcupaciones();
     this.metTraerEtnias();
     this.metTraerResguardos();
@@ -217,6 +220,7 @@ export default {
         .get("http://127.0.0.1:8000/ocupaciones/")
         .then((respuesta) => {
           this.ocupaciones = respuesta.data;
+          //alert("ID ultima ocupacion (en Censar.vue): " + this.ocupaciones[this.ocupaciones.length -1].id_ocupacion)
         })
         .catch((error) => {
           alert("Errores: ", error);
@@ -260,4 +264,8 @@ export default {
 
 <!-- Parte CSS de mi componente -->
 <style>
+  .tablaAdicionales {
+    overflow:scroll;
+    height:50vh;
+  }
 </style>
