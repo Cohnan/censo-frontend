@@ -12,6 +12,8 @@ export default {
   components: {
     OcupacionesComp,
   },
+
+  props: ['ocupaciones']
 };
 </script>
 
@@ -33,7 +35,7 @@ export default {
       </header>
 
       <!-- El Componente con el CRUD de Ocupaciones -->
-      <OcupacionesComp />
+      <OcupacionesComp :ocupaciones="this.ocupaciones"/>
 
       <button v-on:click="metCerrarMOcupaciones" id="btnCerrarOcupModal">
         Cerrar

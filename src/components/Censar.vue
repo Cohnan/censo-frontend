@@ -118,9 +118,10 @@
       <OcupacionesModalC
         v-show="modalOcupacionesEsVisible"
         v-on:msjCerrarMOcupaciones="metCerrarMOcupaciones"
+        :ocupaciones="this.ocupaciones"
       />
 
-      
+
     </div>
     <!--iv class="prueba">
         <button v-on:click="metTraerOcupaciones">Actualizar Ocupaciones</button> <br />
