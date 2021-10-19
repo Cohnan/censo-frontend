@@ -6,7 +6,11 @@
       <router-link to="" id="linknav">Estadisticas</router-link>
 
       <div class="registrarbutton">
-        <a id="buttonreg" href="#" class="button">Ingresar</a>
+        <a id="buttonreg" href="#" class="button" v-if="!is_auth" v-on:click="loadSignUp">Registrar</a>
+      </div>
+
+      <div class="ingresarbutton">
+        <a id="buttoning" href="#" class="button" v-if="!is_auth" v-on:click="loadLogIn">Ingresar</a>
       </div>
 
       <div class="title">
@@ -14,8 +18,17 @@
       </div>
     </div>
 
+    <nav>
+      <button v-if="is_auth">Inicio</button>
+      <button v-if="is_auth">Cuenta</button>
+      <button v-if="is_auth">Cerrar Sesión</button> 
+    </nav>
+
     <div id="content">
-      <h1>content</h1>
+      <router-view 
+        v-on:completedLogIn="completedLogIn" 
+        v-on:completedSignUp="completedSignUp">
+      </router-view>
     </div>
 
     <div id="footer">
@@ -27,6 +40,47 @@
 
   <!-- <router-view />-->
 </template>
+
+<script>
+  export default{
+    name: 'App',
+    data: function(){
+        return {
+          is_auth: false
+        }
+    },
+    
+    components:{
+
+    },
+    
+    methods:{
+      verifyAuth:function(){
+        if(this.is_auth == false){
+          this.$router.push({name: "logIn"})
+        }
+      },
+
+      loadLogIn: function(){
+        this.$router.push({name: "logIn"})
+      },
+
+      loadSignUp: function(){
+        this.$router.push({name: "signUp"})
+      },
+      
+      completedLogIn: function(data){
+      },
+
+      completedSignUp: function(data){
+      },
+    },
+
+    created:function(){
+      this.verifyAuth()
+    }
+  }
+</script>
 
 <style>
 * {
@@ -90,11 +144,42 @@
   text-decoration: none;
 }
 
+#buttoning {
+  color: #f4f7fa;
+  background-color: rgb(127, 157, 255);
+  border: 2px solid;
+  border-radius: 15px;
+  border-color: #f1e53c;
+  width: 80px;
+  padding: 10px;
+  margin: 0px;
+  height: 16px;
+  text-align: center;
+  text-decoration: none;
+}
+
 .registrarbutton {
   position: absolute;
   width: 10%;
   margin-left: 80%;
   margin-top: -8px;
+}
+
+.ingresarbutton {
+  position: absolute;
+  width: 10%;
+  margin-left: 88%;
+  margin-top: -8px;
+}
+
+#buttoning:hover{
+    background-color: white;
+    color: red;
+}
+
+#buttonreg:hover{
+    background-color: white;
+    color: red;
 }
 
 .title {
