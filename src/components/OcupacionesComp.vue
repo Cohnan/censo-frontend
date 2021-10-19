@@ -19,12 +19,12 @@
     </table>
 
     <div class="InputsOcupacion">
-      <input type="text" placeholder="id" v-model="ocupacion.id_ocupacion" />
-      <input type="text" placeholder="Nombre" v-model="ocupacion.nombre" />
+      <input type="text" placeholder="id" v-model="ocupacionPrelim.id_ocupacion" />
+      <input type="text" placeholder="Nombre" v-model="ocupacionPrelim.nombre" />
       <input
         type="text"
         placeholder="Descripcion"
-        v-model="ocupacion.descripcion"
+        v-model="ocupacionPrelim.descripcion"
       />
     </div>
 
@@ -46,7 +46,13 @@ export default {
 
   data: function () {
     return {
-      ocupacion: {
+      ocupacion: { // Hace referencia a la Ocupacion de la tabla de la DB seleccionada
+        id_ocupacion: "",
+        nombre: "",
+        descripcion: "",
+      },
+
+      ocupacionPrelim: { // Hace referencia a la Ocupacion cuyos datos son los especificados en los campos
         id_ocupacion: "",
         nombre: "",
         descripcion: "",
@@ -58,16 +64,16 @@ export default {
 
   methods: {
     metActualizarCampos: function (ocup) {
-      this.ocupacion = ocup;
+      this.ocupacionPrelim = {... ocup}; // Clonando, no pasando referencia al objeto
     },
 
     metAgregarOcupacion: async function () {
       alert(
         "Se intentara registrar una ocupacion con los siguientes datos:" +
-          Object.entries(this.ocupacion)
+          Object.entries(this.ocupacionPrelim)
       );
       axios
-        .post("http://127.0.0.1:8000/ocupaciones/agregar/", this.ocupacion)
+        .post("http://127.0.0.1:8000/ocupaciones/agregar/", this.ocupacionPrelim)
         .then((respuesta) => {
           alert("Ocupacion agregada exitosamente!: " + respuesta.data);
         })
@@ -78,7 +84,7 @@ export default {
       // Actualizar tabla
 
       // Borrar campos
-      this.ocupacion = {
+      this.ocupacionPrelim = {
         id_ocupacion: "",
         nombre: "",
         descripcion: "",
