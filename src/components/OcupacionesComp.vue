@@ -78,10 +78,10 @@ export default {
     },
 
     metAgregarOcupacion: function () {
-      alert(
+      /*alert(
         "Se intentara registrar una ocupacion con los siguientes datos:" +
           Object.entries(this.ocupacionPrelim)
-      );
+      );*/
       axios
         .post(
           "http://127.0.0.1:8000/ocupaciones/agregar/",
@@ -90,7 +90,8 @@ export default {
         .then((respuesta) => {
           alert(
             "Ocupacion agregada exitosamente!: " +
-              Object.entries(respuesta.data.registro)
+              //Object.entries(respuesta.data.registro)
+              JSON.stringify(respuesta.data.registro, null, 2)
           );
 
           // Borrar campos
@@ -99,11 +100,12 @@ export default {
             nombre: "",
             descripcion: "",
           };
-
+          
+          // Actualizar Variable y Lista de ocupaciones en todos los componentes
           this.metActualizarListaOcupaciones();
         })
         .catch((error) => {
-          alert("Error: " + error);
+          alert("Error agregando ocupacion: " + error);
         });
     },
 
@@ -112,21 +114,15 @@ export default {
       axios
         .get("http://127.0.0.1:8000/ocupaciones/")
         .then((respuesta) => {
-          alert(
+          /*alert(
             "Exito GET respuesta.data " +
               Object.values(respuesta.data) +
               typeof respuesta.data
-          );
-          //this.ocupacionesVar = { ...respuesta.data };
+          );*/
           this.$emit("MsjActualizadasOcupaciones");
         })
         .catch((error) => {
-          alert(
-            "Error GET this.ocupacionesProp " +
-              Object.values(this.ocupacionesProp) +
-              typeof this.ocupacionesProp
-          );
-          alert("Errores: " + error);
+          alert("Error actualizando lista de Ocupaciones: " + error);
         });
     },
   },

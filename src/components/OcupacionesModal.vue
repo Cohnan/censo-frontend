@@ -19,6 +19,7 @@
       <OcupacionesComp
         :ocupacionesProp="this.ocupacionesProp"
         v-on:MsjActualizadasOcupaciones="metReenviarMsjOcupaciones"
+        :key="this.ocupacionesProp[this.ocupacionesProp.length -1].id_ocupacion"
       />
 
       <button v-on:click="metCerrarMOcupaciones" id="btnCerrarOcupModal">

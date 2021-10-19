@@ -200,15 +200,15 @@ export default {
   methods: {
     // Metodo para enviar formulario de Registro de Persona
     metAgregarPersona: function () {
-      alert(
+      /*alert(
         "Se intentara registrar una persona con los siguientes datos:" +
           Object.entries(this.persona)
-      );
+      );*/
 
       axios
         .post("http://127.0.0.1:8000/censoIndigena/censar/", this.persona)
         .then((respuesta) => {
-          alert("Persona agregada exitosamente!: " + respuesta.data);
+          alert("Persona agregada exitosamente!: " + JSON.stringify(respuesta.data.registro, null, 2));
         })
         .catch((error) => {
           alert("Errores: " + error);
