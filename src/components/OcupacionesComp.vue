@@ -14,7 +14,17 @@
       </tr>
     </table>
 
-    <button v-on:click="mostrarOcupaciones"> Mostrar Ocupaciones</button> <br />
+    <div class="InputsOcupacion">
+        <input type="text" placeholder="id" readonly/>
+        <input type="text" placeholder="Nombre"/>
+        <input type="text" placeholder="Descripcion"/>
+    </div>
+
+    <div class="CRUD">
+        <button> Agregar </button>
+        <button> Actualizar </button>
+        <button> Eliminar </button>
+    </div>
 
   </div>
 </template>
@@ -25,10 +35,17 @@ export default {
 
     props: ['ocupaciones'],
 
+    data: function () {
+        return {
+            ocupacion: {
+                nombre: "",
+                descripcion: ""
+            }
+        };
+    },
+
     methods: {
-        mostrarOcupaciones: function () {
-            alert("Ocupaciones que llegaron a OcupacionesComp: " + this.ocupaciones);
-        }
+        
     }
 }
 </script>
