@@ -7,7 +7,7 @@
         <th>Nombre</th>
         <th>Descripcion</th>
       </tr>
-      <tr v-for="ocupacion in ocupaciones" :key="ocupacion.id_ocupacion">
+      <tr v-for="ocupacion in ocupaciones" :key="ocupacion.id_ocupacion" v-on:click="metActualizarCampos(ocupacion)">
         <td>{{ ocupacion.id_ocupacion }}</td>
         <td>{{ ocupacion.nombre }}</td>
         <td>{{ ocupacion.descripcion }}</td>
@@ -15,9 +15,9 @@
     </table>
 
     <div class="InputsOcupacion">
-        <input type="text" placeholder="id" readonly/>
-        <input type="text" placeholder="Nombre"/>
-        <input type="text" placeholder="Descripcion"/>
+        <input type="text" placeholder="id" v-model="ocupacion.id" readonly/>
+        <input type="text" placeholder="Nombre" v-model="ocupacion.nombre"/>
+        <input type="text" placeholder="Descripcion" v-model="ocupacion.descripcion"/>
     </div>
 
     <div class="CRUD">
@@ -38,6 +38,7 @@ export default {
     data: function () {
         return {
             ocupacion: {
+                id: "",
                 nombre: "",
                 descripcion: ""
             }
@@ -45,7 +46,9 @@ export default {
     },
 
     methods: {
-        
+        metActualizarCampos: async function(ocup) {
+            this.ocupacion = ocup;
+        }
     }
 }
 </script>
