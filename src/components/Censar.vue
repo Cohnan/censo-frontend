@@ -114,10 +114,12 @@
     </form>
 
     <div class="prueba">
-        <button v-on:click="metTraerOcupaciones">Actualizar Ocupaciones</button>
+        <button v-on:click="metTraerOcupaciones">Actualizar Ocupaciones</button> <br />
 
-        <button v-on:click="metAbrirMOcupaciones"> CRUD Ocupaciones </button>
-        <Modal v-show="modalOcupacionesEsVisible" v-on:mensCerrarMOcupaciones="metCerrarMOcupaciones"/>
+        <button v-on:click="metAbrirMOcupaciones"> CRUD Ocupaciones </button> <br />
+        <CompMOcupaciones v-show="modalOcupacionesEsVisible" v-on:msjCerrarMOcupaciones="metCerrarMOcupaciones"/> <br />
+
+        Despues del Modal
     </div>
   </div>
 
@@ -128,7 +130,7 @@
 <!-- Parte JavaScript de mi componente -->
 <script>
 import axios from "axios"; // Para procesar HTTP requests
-import CompOcupaciones from "./Ocupaciones.vue"; // Importar el componente de Ocupaciones
+import CompMOcupaciones from "./Ocupaciones.vue"; // Importar el componente de Ocupaciones
 
 export default {
   
@@ -137,7 +139,7 @@ export default {
   name: "Censo",
 
   components: {
-      CompOcupaciones,
+      CompMOcupaciones,
   },
 
   // Valores iniciales de variables
@@ -235,16 +237,15 @@ export default {
         });
     },
 
-    metAbrirMOcupaciones: function () {
+    metCerrarMOcupaciones: function () {
         this.modalOcupacionesEsVisible = false;
     },
 
-    metAbrirMOcupaciones: function() {
+    metAbrirMOcupaciones: function () {
+        //alert("Se esta tratando de mostrar el modal");
         this.modalOcupacionesEsVisible = true;
-    }
+    },
   },
-
-  // Modelos adicionales?
 };
 </script>
 
