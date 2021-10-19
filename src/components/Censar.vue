@@ -117,7 +117,7 @@
         <button v-on:click="metTraerOcupaciones">Actualizar Ocupaciones</button> <br />
 
         <button v-on:click="metAbrirMOcupaciones"> CRUD Ocupaciones </button> <br />
-        <CompMOcupaciones v-show="modalOcupacionesEsVisible" v-on:msjCerrarMOcupaciones="metCerrarMOcupaciones"/> <br />
+        <OcupacionesModalC v-show="modalOcupacionesEsVisible" v-on:msjCerrarMOcupaciones="metCerrarMOcupaciones"/> <br />
 
         Despues del Modal
     </div>
@@ -130,7 +130,7 @@
 <!-- Parte JavaScript de mi componente -->
 <script>
 import axios from "axios"; // Para procesar HTTP requests
-import CompMOcupaciones from "./Ocupaciones.vue"; // Importar el componente de Ocupaciones
+import OcupacionesModalC from "./OcupacionesModal.vue"; // Importar el componente de Ocupaciones
 
 export default {
   
@@ -139,7 +139,7 @@ export default {
   name: "Censo",
 
   components: {
-      CompMOcupaciones,
+      OcupacionesModalC,
   },
 
   // Valores iniciales de variables
