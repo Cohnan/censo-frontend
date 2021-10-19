@@ -16,13 +16,28 @@ export default {
 </script>
 
 <template>
+  <!-- Llena toda la pantalla -->
   <div class="ModalOcupBack">
-    <!-- Llena toda la pantalla -->
+    <!-- El cuadro donde está la información -->
     <div class="ModalOcupCuadro">
-      <!-- El cuadro donde está la información -->
-      <OcupacionesComp /> <!-- El Componente con el CRUD de Ocupaciones -->
+      <!-- Header -->
+      <header>
+        <button
+          type="button"
+          class="btn-close"
+          @click="metCerrarMOcupaciones"
+          aria-label="Close modal"
+        >
+          X
+        </button>
+      </header>
 
-      <button v-on:click="metCerrarMOcupaciones" id="btnCerrarOcupModal">X</button>
+      <!-- El Componente con el CRUD de Ocupaciones -->
+      <OcupacionesComp />
+
+      <button v-on:click="metCerrarMOcupaciones" id="btnCerrarOcupModal">
+        Cerrar
+      </button>
     </div>
   </div>
 </template>

@@ -80,6 +80,8 @@
           {{ ocupacion.nombre }}
         </option>
       </select>
+      <button v-on:click="metAbrirMOcupaciones"> + </button>
+        <OcupacionesModalC v-show="modalOcupacionesEsVisible" v-on:msjCerrarMOcupaciones="metCerrarMOcupaciones"/>
       <br />
 
       <!-- Etnia -->
@@ -113,14 +115,14 @@
       <br />
     </form>
 
-    <div class="prueba">
+    <!--iv class="prueba">
         <button v-on:click="metTraerOcupaciones">Actualizar Ocupaciones</button> <br />
 
         <button v-on:click="metAbrirMOcupaciones"> CRUD Ocupaciones </button> <br />
         <OcupacionesModalC v-show="modalOcupacionesEsVisible" v-on:msjCerrarMOcupaciones="metCerrarMOcupaciones"/> <br />
 
         Despues del Modal
-    </div>
+    </div-->
   </div>
 
   <div>Caja en Censar.vue, luego de la caja de formulario <br /></div>
