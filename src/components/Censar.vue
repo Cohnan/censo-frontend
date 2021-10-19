@@ -80,8 +80,6 @@
           {{ ocupacion.nombre }}
         </option>
       </select>
-      <button v-on:click="metAbrirMOcupaciones"> + </button>
-        <OcupacionesModalC v-show="modalOcupacionesEsVisible" v-on:msjCerrarMOcupaciones="metCerrarMOcupaciones"/>
       <br />
 
       <!-- Etnia -->
@@ -115,18 +113,23 @@
       <br />
     </form>
 
+    <div class="ActualizarTablas">
+      <button v-on:click="metAbrirMOcupaciones"> Agregar Ocupación </button>
+      <OcupacionesModalC
+        v-show="modalOcupacionesEsVisible"
+        v-on:msjCerrarMOcupaciones="metCerrarMOcupaciones"
+      />
+
+      
+    </div>
     <!--iv class="prueba">
         <button v-on:click="metTraerOcupaciones">Actualizar Ocupaciones</button> <br />
-
-        <button v-on:click="metAbrirMOcupaciones"> CRUD Ocupaciones </button> <br />
-        <OcupacionesModalC v-show="modalOcupacionesEsVisible" v-on:msjCerrarMOcupaciones="metCerrarMOcupaciones"/> <br />
 
         Despues del Modal
     </div-->
   </div>
 
   <div>Caja en Censar.vue, luego de la caja de formulario <br /></div>
-  
 </template>
 
 <!-- Parte JavaScript de mi componente -->
@@ -135,13 +138,11 @@ import axios from "axios"; // Para procesar HTTP requests
 import OcupacionesModalC from "./OcupacionesModal.vue"; // Importar el componente de Ocupaciones
 
 export default {
-  
-
   //Nombre del componente?
   name: "Censo",
 
   components: {
-      OcupacionesModalC,
+    OcupacionesModalC,
   },
 
   // Valores iniciales de variables
@@ -202,8 +203,12 @@ export default {
 
       axios
         .post("http://127.0.0.1:8000/censoIndigena/censar/", this.persona)
-        .then((respuesta) => {alert("Persona agregada exitosamente!: " + respuesta.data);})
-        .catch((error) => {alert("Errores: " + error)});
+        .then((respuesta) => {
+          alert("Persona agregada exitosamente!: " + respuesta.data);
+        })
+        .catch((error) => {
+          alert("Errores: " + error);
+        });
     },
 
     metTraerOcupaciones: async function () {
@@ -240,12 +245,12 @@ export default {
     },
 
     metCerrarMOcupaciones: function () {
-        this.modalOcupacionesEsVisible = false;
+      this.modalOcupacionesEsVisible = false;
     },
 
     metAbrirMOcupaciones: function () {
-        //alert("Se esta tratando de mostrar el modal");
-        this.modalOcupacionesEsVisible = true;
+      //alert("Se esta tratando de mostrar el modal");
+      this.modalOcupacionesEsVisible = true;
     },
   },
 };
