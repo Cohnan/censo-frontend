@@ -15,7 +15,7 @@
     </table>
 
     <div class="InputsOcupacion">
-        <input type="text" placeholder="id" v-model="ocupacion.id" readonly/>
+        <input type="text" placeholder="id" v-model="ocupacion.id"/>
         <input type="text" placeholder="Nombre" v-model="ocupacion.nombre"/>
         <input type="text" placeholder="Descripcion" v-model="ocupacion.descripcion"/>
     </div>
@@ -46,7 +46,7 @@ export default {
     },
 
     methods: {
-        metActualizarCampos: async function(ocup) {
+        metActualizarCampos: function(ocup) {
             this.ocupacion = ocup;
         }
     }

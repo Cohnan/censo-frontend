@@ -146,7 +146,7 @@ export default {
     OcupacionesModalC,
   },
 
-  // Valores iniciales de variables
+  // Valores de variables que al ser actualizados, inmediatamnete actualizaran el HTML
   data: function () {
     return {
       // Estos valores aparecerán en el formularion en cuanto se cargue la página
