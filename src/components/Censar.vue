@@ -117,6 +117,7 @@
     <div class="ActualizarTablas">
       <button v-on:click="metAbrirMOcupaciones"> Agregar Ocupación </button>
       <button v-on:click="metAbrirMEtnias"> Agregar Etnias </button>
+      <button v-on:click="metAbrirMResguardos"> Agregar Resguardos </button>
 
       <ModalTablaAdComp
         v-show="modalEsVisible"
@@ -280,6 +281,12 @@ export default {
       this.registrosTA = this.etnias;
       this.modalEsVisible = true;
       this.tablaEnModal = "etnias";
+    },
+
+    metAbrirMResguardos: function () {
+      this.registrosTA = this.resguardos;
+      this.modalEsVisible = true;
+      this.tablaEnModal = "resguardos";
     },
   },
 };

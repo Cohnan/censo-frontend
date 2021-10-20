@@ -27,9 +27,15 @@
         :key="this.registrosProp[this.registrosProp.length -1]"
       />
 
-       <EtniasComp v-if="tablaModificandoProp == 'etnias'"
+      <EtniasComp v-if="tablaModificandoProp == 'etnias'"
         :registrosProp="this.registrosProp"
         v-on:MsjActualizadasEtnias="metReenviarMsjEtnias"
+        :key="this.registrosProp[this.registrosProp.length -1]"
+      />
+
+      <ResguardosComp v-if="tablaModificandoProp == 'resguardos'"
+        :registrosProp="this.registrosProp"
+        v-on:MsjActualizadosResguardos="metReenviarMsjResguardos"
         :key="this.registrosProp[this.registrosProp.length -1]"
       />
 
@@ -51,6 +57,7 @@
 <script>
 import OcupacionesComp from "./OcupacionesComp.vue";
 import EtniasComp from "./EtniasComp.vue";
+import ResguardosComp from "./ResguardosComp.vue";
 
 export default {
   name: "ModalTablaAdComp",
@@ -72,11 +79,19 @@ export default {
       );*/
       this.$emit("MsjActualizadasEtnias");
     },
+
+    metReenviarMsjResguardos() {
+      /*alert(
+        "Se esta reenviando el mensaje de actualizacion en OcupacionesModal"
+      );*/
+      this.$emit("MsjActualizadosResguardos");
+    },
   },
 
   components: {
     OcupacionesComp,
     EtniasComp,
+    ResguardosComp
   },
 
   props: ["registrosProp", "tablaModificandoProp"],
