@@ -6,7 +6,7 @@
       <!-- Header -->
       <header class="modal-header">
         <slot name="header">
-          <h2> Ocupaciones </h2>
+          <h2> {{ this.tablaModificandoProp.toUpperCase() }} </h2>
         </slot>
         <button
           type="button"
