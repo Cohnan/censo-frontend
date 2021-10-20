@@ -118,10 +118,13 @@
       <OcupacionesModalC
         v-show="modalEsVisible"
         v-on:msjCerrarModal="metCerrarModal"
+
         v-on:MsjActualizadasOcupaciones="metTraerOcupaciones"
         v-on:MsjActualizadasEtnias="metTraerEtnias"
         v-on:MsjActualizadosResguardos="metTraerResguardos"
+        
         :registrosProp="this.registrosTA"
+        :tablaModificandoProp="this.tablaEnModal"
         :key="this.registrosTA[this.registrosTA.length -1]"       
       />
 

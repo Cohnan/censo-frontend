@@ -21,7 +21,7 @@
 
       <section class="modal-body">
       <!-- El Componente con el CRUD de Ocupaciones -->
-      <OcupacionesComp
+      <OcupacionesComp v-if="tablaModificandoProp == 'ocupaciones'"
         :registrosProp="this.registrosProp"
         v-on:MsjActualizadasOcupaciones="metReenviarMsjOcupaciones"
         :key="this.registrosProp[this.registrosProp.length -1]"
@@ -63,7 +63,7 @@ export default {
     OcupacionesComp,
   },
 
-  props: ["registrosProp"],
+  props: ["registrosProp", "tablaModificandoProp"],
 };
 </script>
 
