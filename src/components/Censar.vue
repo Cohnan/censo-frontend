@@ -295,8 +295,5 @@ export default {
 
 <!-- Parte CSS de mi componente -->
 <style>
-  .tablaAdicionales {
-    overflow:scroll;
-    height:50vh;
-  }
+  
 </style>

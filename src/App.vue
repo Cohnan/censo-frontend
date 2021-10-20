@@ -38,13 +38,8 @@
 
 <script>
 export default {
-  name : "Componente Agregar Persona",
+  name : "ComponentePrincipal",
 
-  methods: {
-    cargarAgregarPersona: function() {
-      this.$router.push({ name: "pathAgregarPersona" });
-    },
-  },
 };
 </script>
 

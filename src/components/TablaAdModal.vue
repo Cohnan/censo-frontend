@@ -123,4 +123,9 @@ export default {
   display: flex;
   flex-direction: column;
 }
+
+.tablaAdicionales {
+    overflow:scroll;
+    height:50vh;
+  }
 </style>
