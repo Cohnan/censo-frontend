@@ -17,6 +17,8 @@
 
     <div id="content">
       <h1>content</h1>
+
+      <router-view/>
     </div>
 
     <div id="footer">
@@ -27,7 +29,7 @@
   </body>
 
 
-  <router-view/>
+  
   App.vue, despues del router-view
 
   <!-- <router-view />-->
