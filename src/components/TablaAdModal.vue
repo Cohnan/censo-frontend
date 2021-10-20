@@ -6,7 +6,7 @@
       <!-- Header -->
       <header class="modal-header">
         <slot name="header">
-          <h2> {{ this.tablaModificandoProp.toUpperCase() }} </h2>
+          <h2> {{ this.tablaModificandoProp }} </h2>
         </slot>
         <button
           type="button"
@@ -61,6 +61,7 @@ import ResguardosComp from "./ResguardosComp.vue";
 
 export default {
   name: "ModalTablaAdComp",
+  
   methods: {
     metCerrarModal() {
       this.$emit("msjCerrarModal");
