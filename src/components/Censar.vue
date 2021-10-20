@@ -118,7 +118,9 @@
       <OcupacionesModalC
         v-show="modalEsVisible"
         v-on:msjCerrarModal="metCerrarModal"
-        v-on:MsjActualizadasOcupaciones="metTraerOcupaciones" 
+        v-on:MsjActualizadasOcupaciones="metTraerOcupaciones"
+        v-on:MsjActualizadasEtnias="metTraerEtnias"
+        v-on:MsjActualizadosResguardos="metTraerResguardos"
         :registrosProp="this.registrosTA"
         :key="this.registrosTA[this.registrosTA.length -1]"       
       />
@@ -196,6 +198,7 @@ export default {
     this.metTraerOcupaciones();
     this.metTraerEtnias();
     this.metTraerResguardos();
+    this.registrosTA = [];
   },
 
   // Métodos auxiliares a ejecutar dadas ciertas acciones en este componente
@@ -235,6 +238,8 @@ export default {
         .get("http://127.0.0.1:8000/etnias/")
         .then((respuesta) => {
           this.etnias = respuesta.data;
+
+          this.registrosTA = this.etnias;
         })
         .catch((error) => {
           alert("Errores: ", error);
@@ -246,6 +251,8 @@ export default {
         .get("http://127.0.0.1:8000/resguardos/")
         .then((respuesta) => {
           this.resguardos = respuesta.data;
+          
+          this.registrosTA = this.resguardos;
         })
         .catch((error) => {
           alert("Errores: ", error);
@@ -258,7 +265,9 @@ export default {
 
     metAbrirMOcupaciones: function () {
       //alert("Se esta tratando de mostrar el modal");
+      this.registrosTA = this.ocupaciones;
       this.modalEsVisible = true;
+      this.tablaEnModal = "ocupaciones";
     },
   },
 };
