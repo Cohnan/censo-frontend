@@ -113,8 +113,11 @@
       <br />
     </form>
 
+    <!-- Botones para abrir Modal (Popup) con CRUD de las tablas adicionales -->
     <div class="ActualizarTablas">
       <button v-on:click="metAbrirMOcupaciones"> Agregar Ocupación </button>
+      <button v-on:click="metAbrirMEtnias"> Agregar Etnias </button>
+
       <ModalTablaAdComp
         v-show="modalEsVisible"
         v-on:msjCerrarModal="metCerrarModal"
@@ -271,6 +274,12 @@ export default {
       this.registrosTA = this.ocupaciones;
       this.modalEsVisible = true;
       this.tablaEnModal = "ocupaciones";
+    },
+
+    metAbrirMEtnias: function () {
+      this.registrosTA = this.etnias;
+      this.modalEsVisible = true;
+      this.tablaEnModal = "etnias";
     },
   },
 };
