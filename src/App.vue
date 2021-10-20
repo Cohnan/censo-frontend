@@ -1,11 +1,31 @@
 <template>
-  <div id="nav"> <!-- Tag <nav>? -->
-    <router-link to="/" id="linknav">Registros</router-link> |
-    <router-link to="/censoIndigena" id="linkAgregar">Agregar</router-link>|
-    <router-link to="" id="linknav">Estadisticas</router-link>|
-    <!--a id="buttonreg" href="#" class="button">registrarse</a>-->
 
-  </div>
+  <body>
+    <div id="nav">
+      <router-link to="/" id="linknav">Registros</router-link> |
+    <router-link to="/censoIndigena" id="linkAgregar">Agregar</router-link>|
+    <router-link to="" id="linknav">Estadisticas</router-link>
+
+      <div class="registrarbutton">
+        <a id="buttonreg" href="#" class="button">Ingresar</a>
+      </div>
+
+      <div class="title">
+        <h2>Censo Indigena</h2>
+      </div>
+    </div>
+
+    <div id="content">
+      <h1>content</h1>
+    </div>
+
+    <div id="footer">
+      <footer>
+        <h1>footer</h1>
+      </footer>
+    </div>
+  </body>
+
 
   <router-view/>
   App.vue, despues del router-view
@@ -29,6 +49,10 @@ export default {
 
 
 <style>
+* {
+  /*border: 1px solid;*/
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -38,19 +62,21 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  padding: 15px;
   background-color: rgb(127, 157, 255);
+  width: 100%;
 }
 
-#nav a {
+#nav {
   font-weight: bold;
   color: #2c3e50;
+  height: 30px;
 }
 
 #nav #linknav {
   position: relative;
   color: #f4f7fa;
-  padding: 10px;
+  padding: 28px;
   letter-spacing: 1px;
   text-decoration: none;
 }
@@ -62,7 +88,7 @@ export default {
   height: 3px;
   width: 0%;
   left: 0;
-  bottom: -2px;
+  bottom: 8px;
   transition: 0.5s;
 }
 
@@ -71,7 +97,6 @@ export default {
 }
 
 #buttonreg {
-  display: inline-block;
   color: #f4f7fa;
   background-color: rgb(127, 157, 255);
   border: 2px solid;
@@ -80,8 +105,37 @@ export default {
   width: 80px;
   padding: 10px;
   margin: 0px;
-  height: 20px;
+  height: 16px;
   text-align: center;
   text-decoration: none;
+}
+
+.registrarbutton {
+  position: absolute;
+  width: 10%;
+  margin-left: 80%;
+  margin-top: -8px;
+}
+
+.title {
+  position: relative;
+  width: 500px;
+  margin-top: -45px;
+  padding-top: 0px;
+  color: #f4f7fa;
+}
+
+#content {
+  height: 830px;
+}
+
+#footer {
+  height: 55px;
+  background-color: rgb(127, 157, 255);
+}
+
+body {
+  margin: 0;
+  padding: 0;
 }
 </style>
