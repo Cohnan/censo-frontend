@@ -116,11 +116,11 @@
     <div class="ActualizarTablas">
       <button v-on:click="metAbrirMOcupaciones"> Agregar Ocupación </button>
       <OcupacionesModalC
-        v-show="modalOcupacionesEsVisible"
+        v-show="modalEsVisible"
         v-on:msjCerrarModal="metCerrarModal"
         v-on:MsjActualizadasOcupaciones="metTraerOcupaciones" 
-        :registrosProp="this.ocupaciones"
-        :key="this.ocupaciones[this.ocupaciones.length -1].id_ocupacion"       
+        :registrosProp="this.registrosTA"
+        :key="this.registrosTA[this.registrosTA.length -1]"       
       />
 
 
@@ -185,7 +185,9 @@ export default {
       // Lista de Resguardos
       resguardos: [],
 
-      modalOcupacionesEsVisible: false,
+      registrosTA: [],
+
+      modalEsVisible: false,
     };
   },
 
@@ -221,6 +223,7 @@ export default {
         .then((respuesta) => {
           this.ocupaciones = respuesta.data;
           //alert("ID ultima ocupacion (en Censar.vue): " + this.ocupaciones[this.ocupaciones.length -1].id_ocupacion)
+          this.registrosTA = this.ocupaciones;
         })
         .catch((error) => {
           alert("Errores: ", error);
@@ -250,12 +253,12 @@ export default {
     },
 
     metCerrarModal: function () {
-      this.modalOcupacionesEsVisible = false;
+      this.modalEsVisible = false;
     },
 
     metAbrirMOcupaciones: function () {
       //alert("Se esta tratando de mostrar el modal");
-      this.modalOcupacionesEsVisible = true;
+      this.modalEsVisible = true;
     },
   },
 };

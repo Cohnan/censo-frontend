@@ -9,7 +9,7 @@
         <th>Descripcion</th>
       </tr>
       <tr
-        v-for="ocupacion in this.ocupacionesProp"
+        v-for="ocupacion in this.registrosProp"
         :key="ocupacion.id_ocupacion"
         v-on:click="metActualizarCampos(ocupacion)"
       >
@@ -52,7 +52,7 @@ import axios from "axios"; // Para procesar HTTP requests
 export default {
   name: "OcupacionesComp",
 
-  props: ["ocupacionesProp"],
+  props: ["registrosProp"],
 
   data: function () {
     return {

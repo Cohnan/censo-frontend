@@ -24,7 +24,7 @@
       <OcupacionesComp
         :registrosProp="this.registrosProp"
         v-on:MsjActualizadasOcupaciones="metReenviarMsjOcupaciones"
-        :key="this.registrosProp[this.registrosProp.length -1].id_ocupacion"
+        :key="this.registrosProp[this.registrosProp.length -1]"
       />
       </section>
 
