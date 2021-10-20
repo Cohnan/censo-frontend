@@ -115,14 +115,14 @@
 
     <div class="ActualizarTablas">
       <button v-on:click="metAbrirMOcupaciones"> Agregar Ocupación </button>
-      <OcupacionesModalC
+      <ModalTablaAdComp
         v-show="modalEsVisible"
         v-on:msjCerrarModal="metCerrarModal"
 
         v-on:MsjActualizadasOcupaciones="metTraerOcupaciones"
         v-on:MsjActualizadasEtnias="metTraerEtnias"
         v-on:MsjActualizadosResguardos="metTraerResguardos"
-        
+
         :registrosProp="this.registrosTA"
         :tablaModificandoProp="this.tablaEnModal"
         :key="this.registrosTA[this.registrosTA.length -1]"       
@@ -144,14 +144,14 @@
 <!-- Parte JavaScript de mi componente -->
 <script>
 import axios from "axios"; // Para procesar HTTP requests
-import OcupacionesModalC from "./OcupacionesModal.vue"; // Importar el componente de Ocupaciones
+import ModalTablaAdComp from "./TablaAdModal.vue"; // Importar el componente de Ocupaciones
 
 export default {
   //Nombre del componente?
   name: "Censo",
 
   components: {
-    OcupacionesModalC,
+    ModalTablaAdComp,
   },
 
   // Valores de variables que al ser actualizados, inmediatamnete actualizaran el HTML

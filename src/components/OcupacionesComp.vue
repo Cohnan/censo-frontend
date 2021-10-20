@@ -1,5 +1,5 @@
 <template>
-  <div class="OcupTabla">
+  <div class="CrudTablaAdicional">
     <!-- A partir de aqui podria ponerlo en un Componente distinto? -->
     <div  class="tablaAdicionales">
     <table>
@@ -20,7 +20,7 @@
     </table>
     </div>
 
-    <div class="InputsOcupacion">
+    <div class="InputsTablaAdicional">
       <input
         type="text"
         placeholder="id"
@@ -38,7 +38,7 @@
       />
     </div>
 
-    <div class="CRUD">
+    <div class="BotonesCrudTablaAd">
       <button v-on:click="metAgregarOcupacion">Agregar</button>
       <button v-on:click="metActualizarOcupacion">Actualizar</button>
       <button v-on:click="metEliminarOcupacion">Eliminar</button>

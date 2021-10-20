@@ -45,7 +45,7 @@
 import OcupacionesComp from "./OcupacionesComp.vue";
 
 export default {
-  name: "OcupacionesModalComp",
+  name: "ModalTablaAdComp",
   methods: {
     metCerrarModal() {
       this.$emit("msjCerrarModal");
