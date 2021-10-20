@@ -1,9 +1,10 @@
 <template>
+
   <body>
     <div id="nav">
       <router-link to="/" id="linknav">Registros</router-link> |
-      <router-link to="/about" id="linknav">Agregar</router-link>|
-      <router-link to="" id="linknav">Estadisticas</router-link>
+    <router-link to="/censoIndigena" id="linkAgregar">Agregar</router-link>|
+    <router-link to="" id="linknav">Estadisticas</router-link>
 
       <div class="registrarbutton">
         <a id="buttonreg" href="#" class="button">Ingresar</a>
@@ -25,8 +26,27 @@
     </div>
   </body>
 
+
+  <router-view/>
+  App.vue, despues del router-view
+
   <!-- <router-view />-->
 </template>
+
+
+<script>
+export default {
+  name : "Componente Agregar Persona",
+
+  methods: {
+    cargarAgregarPersona: function() {
+      this.$router.push({ name: "pathAgregarPersona" });
+    },
+  },
+};
+</script>
+
+
 
 <style>
 * {

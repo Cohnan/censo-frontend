@@ -1,5 +1,6 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import Censar from "../components/Censar.vue"
 
 const routes = [
   {
@@ -16,10 +17,15 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
+  {
+    path: "/censoIndigena",
+    name: "pathAgregarPersona",
+    component: Censar,
+  },
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),//createWebHashHistory(),
   routes,
 });
 
