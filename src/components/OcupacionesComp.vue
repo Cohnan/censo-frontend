@@ -109,6 +109,38 @@ export default {
         });
     },
 
+    metActualizarOcupacion: function () {
+      /*alert(
+        "Se intentara registrar una ocupacion con los siguientes datos:" +
+          Object.entries(this.ocupacionPrelim)
+      );*/
+      axios
+        .put(
+          "http://127.0.0.1:8000/ocupaciones/",
+          this.ocupacionPrelim
+        )
+        .then((respuesta) => {
+          alert(
+            "Ocupacion actualizada exitosamente!: " +
+              //Object.entries(respuesta.data.registro)
+              JSON.stringify(respuesta.data.registro, null, 2)
+          );
+
+          // Borrar campos
+          this.ocupacionPrelim = {
+            id_ocupacion: "",
+            nombre: "",
+            descripcion: "",
+          };
+          
+          // Actualizar Variable y Lista de ocupaciones en todos los componentes
+          this.metActualizarListaOcupaciones();
+        })
+        .catch((error) => {
+          alert("Error agregando ocupacion: " + error);
+        });
+    },
+
     metActualizarListaOcupaciones: function () {
       // Actualizar lista de Ocupaciones
       axios

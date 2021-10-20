@@ -117,9 +117,9 @@
       <button v-on:click="metAbrirMOcupaciones"> Agregar Ocupación </button>
       <OcupacionesModalC
         v-show="modalOcupacionesEsVisible"
-        v-on:msjCerrarMOcupaciones="metCerrarMOcupaciones"
+        v-on:msjCerrarModal="metCerrarModal"
         v-on:MsjActualizadasOcupaciones="metTraerOcupaciones" 
-        :ocupacionesProp="this.ocupaciones"
+        :registrosProp="this.ocupaciones"
         :key="this.ocupaciones[this.ocupaciones.length -1].id_ocupacion"       
       />
 
@@ -249,7 +249,7 @@ export default {
         });
     },
 
-    metCerrarMOcupaciones: function () {
+    metCerrarModal: function () {
       this.modalOcupacionesEsVisible = false;
     },
 

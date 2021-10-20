@@ -1,30 +1,38 @@
 <template>
   <!-- Llena toda la pantalla -->
-  <div class="ModalOcupBack">
+  <div class="ModalBack">
     <!-- El cuadro donde está la información -->
-    <div class="ModalOcupCuadro">
+    <div class="ModalCuadro">
       <!-- Header -->
-      <header>
+      <header class="modal-header">
+        <slot name="header">
+          <h2> Ocupaciones </h2>
+        </slot>
         <button
           type="button"
-          class="btn-close"
-          @click="metCerrarMOcupaciones"
+          class="btn-close-X"
+          @click="metCerrarModal"
           aria-label="Close modal"
         >
           X
         </button>
       </header>
 
+
+      <section class="modal-body">
       <!-- El Componente con el CRUD de Ocupaciones -->
       <OcupacionesComp
-        :ocupacionesProp="this.ocupacionesProp"
+        :registrosProp="this.registrosProp"
         v-on:MsjActualizadasOcupaciones="metReenviarMsjOcupaciones"
-        :key="this.ocupacionesProp[this.ocupacionesProp.length -1].id_ocupacion"
+        :key="this.registrosProp[this.registrosProp.length -1].id_ocupacion"
       />
+      </section>
 
-      <button v-on:click="metCerrarMOcupaciones" id="btnCerrarOcupModal">
-        Cerrar
-      </button>
+      <footer>
+        <button v-on:click="metCerrarModal" id="btnCerrarModal">
+          Cerrar
+        </button>
+      </footer>
     </div>
   </div>
 </template>
@@ -39,8 +47,8 @@ import OcupacionesComp from "./OcupacionesComp.vue";
 export default {
   name: "OcupacionesModalComp",
   methods: {
-    metCerrarMOcupaciones() {
-      this.$emit("msjCerrarMOcupaciones");
+    metCerrarModal() {
+      this.$emit("msjCerrarModal");
     },
 
     metReenviarMsjOcupaciones() {
@@ -55,7 +63,7 @@ export default {
     OcupacionesComp,
   },
 
-  props: ["ocupacionesProp"],
+  props: ["registrosProp"],
 };
 </script>
 
@@ -64,7 +72,7 @@ export default {
 
 
 <style>
-.ModalOcupBack {
+.ModalBack {
   background: rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 0;
@@ -76,7 +84,7 @@ export default {
   align-items: center;
 }
 
-.ModalOcupCuadro {
+.ModalCuadro {
   background: #ffffff;
   box-shadow: 2px 2px 20px 1px;
   overflow-x: auto;
