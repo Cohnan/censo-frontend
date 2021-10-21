@@ -1,46 +1,84 @@
 <template>
-<body>
-    <div id="container">
-        <div id="box">
-            <div id="formulario">
-                <!--USER ICON-->
-                <div id="circle">
-                    <i id="userIcon" class="far fa-user"></i>
-                </div>
-                <h1>Iniciar sesión</h1>
-                
-                <!--CORREO ELECTRÓNICO-->
-                <div id="icon">
-                    <span> 
-                        <i class="far fa-envelope"></i>
-                    </span>
-                    <input type="email" id="email" placeholder="Correo electrónico">
-                </div>
-                <br />
+    <body>
+        <div id="container">
+            <div id="box">
+                <form id="formulario" v-on:submit.prevent="processLoginUser" method="POST">
+                    <!--USER ICON-->
+                    <div id="circle">
+                        <i id="userIcon" class="far fa-user"></i>
+                    </div>
+                    <h1>Iniciar sesión</h1>
+                    
+                    <!--CORREO ELECTRÓNICO-->
+                    <div id="icon">
+                        <span> 
+                            <i class="far fa-envelope"></i>
+                        </span>
+                        <input type="email" id="email" placeholder="Correo electrónico" v-model="user.email">
+                    </div>
+                    <br />
 
-                <!--CONTRASEÑA-->
-                <div id="icon">
-                    <span>
-                        <i class="fas fa-key"></i>
-                    </span>
-                    <input type="password" id="pass" placeholder="Contraseña"><br>
-                </div>
-                <br />
-                
-                <!--BOTÓN-->
-                <div>
-                <a id="boton">Iniciar sesión</a>
-                &emsp;
-                <!--SIGN UP-->
-                <router-link to="/user/signup" id="linknav">Si no tienes una cuenta, registrate</router-link>
-                </div>
+                    <!--CONTRASEÑA-->
+                    <div id="icon">
+                        <span>
+                            <i class="fas fa-key"></i>
+                        </span>
+                        <input type="password" id="pass" placeholder="Contraseña" v-model="user.password"><br>
+                    </div>
+                    <br />
+                    
+                    <!--BOTÓN-->
+                    <div>
+                    <button id="boton" type="submit">Iniciar sesión</button>
+                    &emsp;
+                    <!--SIGN UP-->
+                    <router-link to="/user/signup" id="linknav">Si no tienes una cuenta, registrate</router-link>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
-	<!-- Fontawesome link -->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-</body>
+        <!-- Fontawesome link -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    </body>
 </template>
+
+<script>
+    import axios from 'axios'; 
+    export default{
+        name: 'logIn',
+
+        data: function(){
+            return{
+                user:{
+                    email: "",
+                    password: ""
+                }
+            }
+        },
+    
+        methods:{
+            processLoginUser:function(){
+                axios.post(
+                    'localhost:8000/login/',
+                    this.user,
+                    {headers:{}}        
+                )
+                .then((result) => {
+                    let dataLogin={
+                        email: this.user.email,
+                        token_access: result.data.access,
+                        token_refresh: result.data.refresh
+                    }
+                    this.$emit('completedLogIn', dataLogin)
+                })
+                .catch((error) =>{
+                    if(error.response.status == "401")
+                        alert("Las credenciales son incorrectas.");
+                });
+            }
+        } 
+    }   
+</script>
 
 <style>
 *{
@@ -119,7 +157,3 @@ span{
     padding: 10px;
 }
 </style>
-
-<script>
-
-</script>
