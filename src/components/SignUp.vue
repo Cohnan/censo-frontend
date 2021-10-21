@@ -1,83 +1,103 @@
 <template>
-    <body>
-        <div id="container">
-            <div id="box">
-                <form id="formulario" v-on:submit.prevent="processLoginUser" method="POST">
-                    <!--USER ICON-->
-                    <div id="circle">
-                        <i id="userIcon" class="far fa-user"></i>
-                    </div>
-                    <h1>Iniciar sesión</h1>
-                    
-                    <!--CORREO ELECTRÓNICO-->
-                    <div id="icon">
-                        <span> 
-                            <i class="far fa-envelope"></i>
-                        </span>
-                        <input type="email" id="email" placeholder="Correo electrónico" v-model="user.email">
-                    </div>
-                    <br />
+<body>
+    <div id="container">
+        <div id="box">
+            <form id="formulario" v-on:submit.prevent="processSignUp">
+                <!--USER ICON-->
+                <div id="circle">
+                    <i id="userIcon" class="fas fa-user-plus"></i>
+                </div>
+                <h1>Registro de usuario</h1>
+                
+                <!--NOMBRE-->
+                <div id="icon">
+                    <span> 
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <input type="text" class="form-control" id="name" placeholder="Nombre de usuario" v-model="user.nombre">
+                </div>
+                <br />
 
-                    <!--CONTRASEÑA-->
-                    <div id="icon">
-                        <span>
-                            <i class="fas fa-key"></i>
-                        </span>
-                        <input type="password" id="pass" placeholder="Contraseña" v-model="user.password"><br>
-                    </div>
-                    <br />
-                    
-                    <!--BOTÓN-->
-                    <div>
-                    <button id="boton" type="submit">Iniciar sesión</button>
-                    &emsp;
-                    <!--SIGN UP-->
-                    <router-link to="/user/signup" id="linknav">Si no tienes una cuenta, registrate</router-link>
-                    </div>
-                </form>
-            </div>
+                <!--CORREO ELECTRÓNICO-->
+                <div id="icon">
+                    <span> 
+                        <i class="far fa-envelope"></i>
+                    </span>
+                    <input type="email" id="email" placeholder="Correo electrónico" v-model="user.email">
+                </div>
+                <br />
+
+                <!--CONTRASEÑA-->
+                <div id="icon">
+                    <span> 
+                        <i class="fas fa-key"></i>
+                    </span>
+                    <input type="password" class="form-control" id="pass" placeholder="Contraseña" v-model="user.password">
+                </div>
+                <br />
+                
+                <!--CONFIRMACIÓN DE LA CONTRASEÑA-->
+                <div id="icon">
+                    <span> 
+                        <i class="fas fa-unlock-alt"></i>
+                    </span>
+                    <input type="password" class="form-control" id="passSure" placeholder="Confirmación de la contraseña" v-model="user.password">
+                </div>
+                <br />  
+
+                <!--BOTÓN-->
+                <div>
+                <button id="boton" type="submit">Registrar</button>
+                &emsp;
+                <!--LOG IN-->
+                <router-link to="/user/login" id="linknav">Inicia sesión si ya tienes una cuenta</router-link>
+                </div>
+            </form>
         </div>
-        <!-- Fontawesome link -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    </body>
+    </div>
+	<!-- Fontawesome link -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</body>
 </template>
 
 <script>
-    import axios from 'axios'; 
+import axios from 'axios'; 
     export default{
-        name: 'logIn',
+        name: 'signUp',
 
         data: function(){
             return{
                 user:{
+                    nombre: "",
                     email: "",
                     password: ""
                 }
             }
         },
-    
+
         methods:{
-            processLoginUser:function(){
+            processSignUp:function(){
                 axios.post(
-                    'localhost:8000/login/',
+                    'http://localhost:8000/usuarios/',
                     this.user,
-                    {headers:{}}        
+                    {headers:{}}
                 )
-                .then((result) => {
-                    let dataLogin={
+                .then((result)=>{
+                    let dataSignUp={
                         email: this.user.email,
                         token_access: result.data.access,
-                        token_refresh: result.data.refresh
+                        token_refresh: result.data.refresh,
                     }
-                    this.$emit('completedLogIn', dataLogin)
+                    this.$emit('completedSignUp', dataSignUp)
                 })
-                .catch((error) =>{
-                    if(error.response.status == "401")
-                        alert("Las credenciales son incorrectas.");
+
+                .catch((error)=>{
+                    console.log(error);
+                    alert("Error. Fallo en el registro de usuario.")
                 });
             }
-        } 
-    }   
+        }
+    }
 </script>
 
 <style>
@@ -96,7 +116,7 @@
 
 #box{
     width: 40%;
-    height: 60%;
+    height: 70%;
     display: flex;
     background-color: #f0add9; 
     border-radius: 1cm; 
@@ -121,7 +141,7 @@
 #icon{
     margin-left: 10%;
     background-color: #6c757d;
-    width: 77%;
+    width: 80%;
 }
 
 #formulario{
