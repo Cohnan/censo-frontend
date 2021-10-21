@@ -6,11 +6,11 @@
       <router-link to="" id="linknav">Estadisticas</router-link>
 
       <div class="registrarbutton">
-        <a id="buttonreg" href="#" class="button" v-if="!is_auth" v-on:click="loadSignUp">Registrar</a>
+        <button id="buttonreg" href="#" class="button" v-if="!is_auth" v-on:click="loadSignUp">Registrar</button>
       </div>
 
       <div class="ingresarbutton">
-        <a id="buttoning" href="#" class="button" v-if="!is_auth" v-on:click="loadLogIn">Ingresar</a>
+        <button id="buttoning" href="#" class="button" v-if="!is_auth" v-on:click="loadLogIn">Ingresar</button>
       </div>
 
       <div class="title">
@@ -27,7 +27,8 @@
     <div id="content">
       <router-view 
         v-on:completedLogIn="completedLogIn" 
-        v-on:completedSignUp="completedSignUp">
+        v-on:completedSignUp="completedSignUp"
+        v-on:logOut="logOut">
       </router-view>
     </div>
 
@@ -51,14 +52,21 @@
     },
     
     components:{
-
     },
     
     methods:{
       verifyAuth:function(){
+        this.is_auth = localStorage.getItem("is_auth") || false;
         if(this.is_auth == false){
           this.$router.push({name: "logIn"})
         }
+        else{
+          this.$router.push({name: "home"});
+        }
+      },
+
+      loadHome: function(){
+        this.$router.push({name: "home"});
       },
 
       loadLogIn: function(){
@@ -69,10 +77,24 @@
         this.$router.push({name: "signUp"})
       },
       
+      logOut: function(){
+        localStorage.clear();
+        alert("Sesión terminada");
+        this.verifyAuth();
+      },
+
       completedLogIn: function(data){
+        localStorage.setItem('email', data.email);
+        localStorage.setItem('tokenRefresh', data.tokenRefresh);
+        localStorage.setItem('tokenAccess', data.tokenAccess);
+        localStorage.setItem('is_auth', true);
+        alert("Autenticación exitosa");
+        this.verifyAuth();
       },
 
       completedSignUp: function(data){
+        alert("Registro exitoso");
+        this.completedLogIn(data);
       },
     },
 
@@ -83,10 +105,6 @@
 </script>
 
 <style>
-* {
-  /*border: 1px solid;*/
-}
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -140,7 +158,6 @@
   padding: 10px;
   margin: 0px;
   height: 16px;
-  text-align: center;
   text-decoration: none;
 }
 
@@ -154,21 +171,20 @@
   padding: 10px;
   margin: 0px;
   height: 16px;
-  text-align: center;
   text-decoration: none;
 }
 
 .registrarbutton {
   position: absolute;
   width: 10%;
-  margin-left: 80%;
+  margin-left: 88%;
   margin-top: -8px;
 }
 
 .ingresarbutton {
   position: absolute;
   width: 10%;
-  margin-left: 88%;
+  margin-left: 80%;
   margin-top: -8px;
 }
 
