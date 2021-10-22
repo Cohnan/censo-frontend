@@ -3,12 +3,13 @@
   <body>
     <div id="nav">
 
-    <router-link to="/censoIndigena" id="linkAgregar">Agregar</router-link>|
-    <router-link to="" id="linknav">Estadisticas</router-link>
+    
+    <router-link to="" id="linknav">Estadisticas</router-link>|
       <router-link to="/tabla" id="linknav" v-if="is_auth">
         Registros</router-link>
       |
-      <router-link to="/registrar" id="linknav">Agregar</router-link>|
+      <router-link to="/censoIndigena" id="linknav">Agregar</router-link>|
+      <router-link to="/registrar" id="linknav">Agregar 2</router-link>
     
 
       <div class="registrarbutton">

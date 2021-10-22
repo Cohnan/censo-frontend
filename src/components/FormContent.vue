@@ -3,7 +3,7 @@
     <br />
     <form v-on:submit.prevent="processLogin">
       <h1>Censo Indigena</h1>
-      <h2>Registrese</h2>
+      <h2>Inicie Sesión</h2>
       <input
         type="email"
         id="email"

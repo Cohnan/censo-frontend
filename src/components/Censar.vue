@@ -1,9 +1,9 @@
 <!-- Parte HTML de mi componente -->
 <template>
-  <div class="cajaFormulario">
-    <h2>Agregar Persona</h2>
+  <div id="cajaFormularioPersona">
+    <h1>Agregar Persona</h1>
 
-    <form v-on:submit.prevent="metAgregarPersona">
+    <form v-on:submit.prevent="metAgregarPersona" class="formagregar">
       <!-- Tipo de Documento -->
       <select
         name="Nombre Combobox Tipo de Doc"
@@ -70,7 +70,11 @@
       <br />
 
       <!-- Ocupación -->
-      <select id="inpOcupacion" v-model="persona.id_ocupacion" :key="this.ocupaciones">
+      <select
+        id="inpOcupacion"
+        v-model="persona.id_ocupacion"
+        :key="this.ocupaciones"
+      >
         <option value="null">Ocupación</option>
         <option
           v-for="ocupacion in ocupaciones"
@@ -109,35 +113,30 @@
       <br />
 
       <!-- Enviar Formulario -->
-      <button type="submit">Agregar</button>
+      <button type="submit" class="botonCrud">Agregar</button>
+      
       <br />
     </form>
 
     <!-- Botones para abrir Modal (Popup) con CRUD de las tablas adicionales -->
-    <div class="ActualizarTablas">
-      <button v-on:click="metAbrirMOcupaciones"> Agregar Ocupación </button>
-      <button v-on:click="metAbrirMEtnias"> Agregar Etnias </button>
-      <button v-on:click="metAbrirMResguardos"> Agregar Resguardos </button>
+    <div id="BtnsActualizarTablas">
+      <button v-on:click="metAbrirMOcupaciones" class="botonCrud">Agregar Ocupación</button>
+      <button v-on:click="metAbrirMEtnias" class="botonCrud">Agregar Etnias</button>
+      <button v-on:click="metAbrirMResguardos" class="botonCrud">Agregar Resguardos</button>
 
       <ModalTablaAdComp
         v-show="modalEsVisible"
         v-on:msjCerrarModal="metCerrarModal"
-
         v-on:MsjActualizadasOcupaciones="metTraerOcupaciones"
         v-on:MsjActualizadasEtnias="metTraerEtnias"
         v-on:MsjActualizadosResguardos="metTraerResguardos"
-
         :registrosProp="this.registrosTA"
         :tablaModificandoProp="this.tablaEnModal"
-        :key="this.registrosTA[this.registrosTA.length -1]"       
+        :key="this.registrosTA[this.registrosTA.length - 1]"
       />
-
-
     </div>
-    
   </div>
 
-  <div>Caja en Censar.vue, luego de la caja de formulario <br /></div>
 </template>
 
 
@@ -201,7 +200,7 @@ export default {
   },
 
   // Funcion a ejecutar al cargar la pagina
-  created: function () { 
+  created: function () {
     this.metTraerOcupaciones();
     this.metTraerEtnias();
     this.metTraerResguardos();
@@ -220,7 +219,10 @@ export default {
       axios
         .post("http://127.0.0.1:8000/censoIndigena/censar/", this.persona)
         .then((respuesta) => {
-          alert("Persona agregada exitosamente!: " + JSON.stringify(respuesta.data.registro, null, 2));
+          alert(
+            "Persona agregada exitosamente!: " +
+              JSON.stringify(respuesta.data.registro, null, 2)
+          );
         })
         .catch((error) => {
           alert("Errores: " + error);
@@ -258,7 +260,7 @@ export default {
         .get("http://127.0.0.1:8000/resguardos/")
         .then((respuesta) => {
           this.resguardos = respuesta.data;
-          
+
           this.registrosTA = this.resguardos;
         })
         .catch((error) => {
@@ -295,5 +297,38 @@ export default {
 
 <!-- Parte CSS de mi componente -->
 <style>
+#cajaFormularioPersona {
+  padding-top: 50px;
+  align-items: center;
+
+}
+
+.formagregar {
+  padding-top: 20px;
+  padding-bottom: 5px;
+  margin:auto;
+  margin-top:20px;
+  min-width: 200px;
+  width: 50%;
+  max-width: 600px;
+  height: 420px;
   
+  
+}
+
+#BtnsActualizarTablas {
+  margin: auto;
+  padding-top: 5px;
+}
+
+.botonCrud {
+  transform-origin: top center;
+  width: 130px;
+  height: 35px;
+  align-self: center;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px
+}
+
 </style>
