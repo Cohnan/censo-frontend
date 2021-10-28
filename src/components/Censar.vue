@@ -58,7 +58,7 @@
         v-model="persona.departamento"
         placeholder="Departamento de Residencia"
       >
-        <option value="">Dapartamento de Residencia</option>
+        <option value="">Departamento de Residencia</option>
         <option
           v-for="departamento of departamentos"
           :key="departamento"
@@ -138,6 +138,7 @@
         v-on:MsjActualizadasOcupaciones="metTraerOcupaciones"
         v-on:MsjActualizadasEtnias="metTraerEtnias"
         v-on:MsjActualizadosResguardos="metTraerResguardos"
+        v-on:msjLogOutSuaveReenv="metReReenviarMsjLogOutSuave"
         :registrosProp="this.registrosTA"
         :tablaModificandoProp="this.tablaEnModal"
         :key="this.registrosTA[this.registrosTA.length - 1]"
@@ -329,6 +330,10 @@ export default {
       this.modalEsVisible = true;
       this.tablaEnModal = "resguardos";
     },
+
+    metReReenviarMsjLogOutSuave: function() {
+      this.$emit("msjLogOutSuaveReReenv");
+    }
   },
 };
 </script>
