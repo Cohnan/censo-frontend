@@ -127,7 +127,7 @@ export default {
       );*/
       axios
         .post(
-          "http://127.0.0.1:8000/resguardos/agregar/",
+          appData["direccionBack"] + "resguardos/agregar/",
           this.resguardoPrelim
         )
         .then((respuesta) => {
@@ -242,7 +242,7 @@ export default {
     metActualizarListaResguardos: function () {
       // Actualizar lista de Resguardos
       axios
-        .get("http://127.0.0.1:8000/resguardos/")
+        .get(appData["direccionBack"] + "resguardos/")
         .then((respuesta) => {
           /*alert(
             "Exito GET respuesta.data " +

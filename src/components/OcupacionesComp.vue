@@ -132,7 +132,7 @@ export default {
       );*/
       axios
         .post(
-          "http://127.0.0.1:8000/ocupaciones/agregar/",
+          appData["direccionBack"] + "ocupaciones/agregar/",
           this.ocupacionPrelim
         )
         .then((respuesta) => {
@@ -247,7 +247,7 @@ export default {
     metActualizarListaOcupaciones: function () {
       // Actualizar lista de Ocupaciones
       axios
-        .get("http://127.0.0.1:8000/ocupaciones/")
+        .get(appData["direccionBack"] + "ocupaciones/")
         .then((respuesta) => {
           /*alert(
             "Exito GET respuesta.data " +
