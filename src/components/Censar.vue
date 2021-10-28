@@ -114,15 +114,23 @@
 
       <!-- Enviar Formulario -->
       <button type="submit" class="botonCrud">Agregar</button>
-      
+
       <br />
     </form>
 
     <!-- Botones para abrir Modal (Popup) con CRUD de las tablas adicionales -->
     <div id="BtnsActualizarTablas">
-      <button v-on:click="metAbrirMOcupaciones" class="botonCrud">Agregar Ocupación</button>
-      <button v-on:click="metAbrirMEtnias" class="botonCrud">Agregar Etnias</button>
-      <button v-on:click="metAbrirMResguardos" class="botonCrud">Agregar Resguardos</button>
+      <button v-on:click="metAbrirMOcupaciones" class="botonCrud">
+        Agregar Ocupación
+      </button>
+      <button v-on:click="metAbrirMEtnias" class="botonCrud">
+        Agregar Etnias
+      </button>
+      <br/>
+      <button v-on:click="metAbrirMResguardos" class="botonCrud">
+        Agregar Resguardos
+      </button>
+    <div/>
 
       <ModalTablaAdComp
         v-show="modalEsVisible"
@@ -136,7 +144,6 @@
       />
     </div>
   </div>
-
 </template>
 
 
@@ -148,6 +155,7 @@
 <script>
 import axios from "axios"; // Para procesar HTTP requests
 import ModalTablaAdComp from "./TablaAdModal.vue"; // Importar el componente de Ocupaciones
+import appData from "../App.vue";
 
 export default {
   //Nombre del componente?
@@ -201,6 +209,7 @@ export default {
 
   // Funcion a ejecutar al cargar la pagina
   created: function () {
+    //alert("Direccion = " + JSON.stringify(appData["direccionBack"], 2));
     this.metTraerOcupaciones();
     this.metTraerEtnias();
     this.metTraerResguardos();
@@ -217,12 +226,29 @@ export default {
       );*/
 
       axios
-        .post("http://127.0.0.1:8000/censoIndigena/censar/", this.persona)
+        .post(appData["direccionBack"] + "censoIndigena/censar/", this.persona)
         .then((respuesta) => {
+          let personaString = "";
+
+          for (let [key, value] in Object.entries(respuesta.data.registro)) {
+            personaString += key.toUpperCase() + ": " + value;
+          }
+
           alert(
-            "Persona agregada exitosamente!: " +
-              JSON.stringify(respuesta.data.registro, null, 2)
+            "Persona agregada exitosamente!: " + personaString
+              //JSON.stringify(respuesta.data.registro, null, 2)
           );
+
+          this.persona = {
+            tipo_doc: "",
+            doc_id: null,
+            nombre: "",
+            fechadenacimiento: "1900-01-01",
+            departamento: "",
+            id_ocupacion: null,
+            id_etnia: null,
+            id_resguardo: null,
+          };
         })
         .catch((error) => {
           alert("Errores: " + error);
@@ -231,40 +257,40 @@ export default {
 
     metTraerOcupaciones: async function () {
       axios
-        .get("http://127.0.0.1:8000/ocupaciones/")
+        .get(appData["direccionBack"] + "ocupaciones/")
         .then((respuesta) => {
           this.ocupaciones = respuesta.data;
           //alert("ID ultima ocupacion (en Censar.vue): " + this.ocupaciones[this.ocupaciones.length -1].id_ocupacion)
           this.registrosTA = this.ocupaciones;
         })
         .catch((error) => {
-          alert("Errores: ", error);
+          alert("Error trayendo Ocupaciones de " + appData["direccionBack"] + error);
         });
     },
 
     metTraerEtnias: async function () {
       axios
-        .get("http://127.0.0.1:8000/etnias/")
+        .get(appData["direccionBack"] + "etnias/")
         .then((respuesta) => {
           this.etnias = respuesta.data;
 
           this.registrosTA = this.etnias;
         })
         .catch((error) => {
-          alert("Errores: ", error);
+          alert("Error trayendo Etnias " + appData["direccionBack"] + error);
         });
     },
 
     metTraerResguardos: async function () {
       axios
-        .get("http://127.0.0.1:8000/resguardos/")
+        .get(appData["direccionBack"] + "resguardos/")
         .then((respuesta) => {
           this.resguardos = respuesta.data;
 
           this.registrosTA = this.resguardos;
         })
         .catch((error) => {
-          alert("Errores: ", error);
+          alert("Error trayendo Resguardos " + appData["direccionBack"] + error);
         });
     },
 
@@ -300,35 +326,32 @@ export default {
 #cajaFormularioPersona {
   padding-top: 50px;
   align-items: center;
-
 }
 
 .formagregar {
   padding-top: 20px;
   padding-bottom: 5px;
-  margin:auto;
-  margin-top:20px;
+  margin: auto;
+  margin-top: 20px;
   min-width: 200px;
   width: 50%;
   max-width: 600px;
   height: 420px;
-  
-  
 }
 
 #BtnsActualizarTablas {
-  margin: auto;
-  padding-top: 5px;
+  padding-top: 0px;
+  justify-items: top;
+  justify-content: top;
 }
 
 .botonCrud {
-  transform-origin: top center;
+  transform-origin: center center;
   width: 130px;
   height: 35px;
-  align-self: center;
+  /*align-self: center;*/
   margin-top: 5px;
   margin-left: 5px;
-  margin-right: 5px
+  margin-right: 5px;
 }
-
 </style>
