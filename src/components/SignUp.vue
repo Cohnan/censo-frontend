@@ -2,7 +2,16 @@
 <body>
     <div id="container">
         <div id="box">
-            <form id="formulario" v-on:submit.prevent="processSignUp">
+            <!--mensajes de verificacion-->
+                <div id="msg"></div>
+                <div id="error" class="alert alert-danger ocultar" role="alert">
+                    Las contraseñas no coinciden, vuelve a intentar.
+                </div>
+                <div id="ok" class="alert alert-success ocultar" role="alert">
+                    Las contraseñas coinciden! Procesando formulario.
+                </div>
+
+            <form id="formulario" v-on:submit.prevent="processSignUp" onsubmit="verificarPassword(); return false">
                 <!--USER ICON-->
                 <div id="circle">
                     <i id="userIcon" class="fas fa-user-plus"></i>
@@ -32,7 +41,7 @@
                     <span> 
                         <i class="fas fa-key"></i>
                     </span>
-                    <input type="password" class="form-control" id="pass" placeholder="Contraseña" v-model="user.password">
+                    <input type="password" class="form-control" id="pass" placeholder="Contraseña" v-model="user.password" required>
                 </div>
                 <br />
                 
@@ -41,7 +50,7 @@
                     <span> 
                         <i class="fas fa-unlock-alt"></i>
                     </span>
-                    <input type="password" class="form-control" id="passSure" placeholder="Confirmación de la contraseña" v-model="user.password">
+                    <input type="password" class="form-control" id="passSure" placeholder="Confirmación de la contraseña" required>
                 </div>
                 <br />  
 
@@ -76,6 +85,21 @@ import axios from 'axios';
         },
 
         methods:{
+            verificarPassword:function() {
+                pass1 = document.getElementBy('pass');
+                pass2 = document.getElementBy('passSure');
+
+                if(pass1.value != pass2.value){
+                    document.getElementById("error").classList.add("mostrar");
+                    return false;
+                }
+                else{
+                    document.getElementById("error").classList.remove("mostrar");
+                    document.getElementById("ok").classList.remove("ocultar");
+                    return true;
+                }
+            },
+
             processSignUp:function(){
                 axios.post(
                     'http://localhost:8000/usuarios/',
@@ -104,6 +128,13 @@ import axios from 'axios';
 *{
     text-align: center;
 }
+.ocultar{
+    display: none;
+}
+
+.mostrar{
+    display: block;
+}
 
 #container{
     width: 100vw;
@@ -118,7 +149,10 @@ import axios from 'axios';
     width: 40%;
     height: 70%;
     display: flex;
-    background-color: #f0add9; 
+    background-color: #f3f1f1; 
+    border: 2px solid;
+    border-radius: 15px;
+    border-color: #0072f4;
     border-radius: 1cm; 
     align-items: center;
     justify-content: center;
