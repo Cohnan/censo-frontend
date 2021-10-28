@@ -1,23 +1,23 @@
 <template>
   <div class="CrudTablaAdicional">
     <!-- A partir de aqui podria ponerlo en un Componente distinto? -->
-    <div  class="tablaAdicionales">
-    <table>
-      <tr>
-        <th>id</th>
-        <th>Nombre</th>
-        <th>Descripcion</th>
-      </tr>
-      <tr
-        v-for="ocupacion in this.registrosProp"
-        :key="ocupacion.id_ocupacion"
-        v-on:click="metActualizarCampos(ocupacion)"
-      >
-        <td>{{ ocupacion.id_ocupacion }}</td>
-        <td>{{ ocupacion.nombre }}</td>
-        <td>{{ ocupacion.descripcion }}</td>
-      </tr>
-    </table>
+    <div class="tablaAdicionales">
+      <table>
+        <tr>
+          <th>id</th>
+          <th>Nombre</th>
+          <th>Descripcion</th>
+        </tr>
+        <tr
+          v-for="ocupacion in this.registrosProp"
+          :key="ocupacion.id_ocupacion"
+          v-on:click="metActualizarCampos(ocupacion)"
+        >
+          <td>{{ ocupacion.id_ocupacion }}</td>
+          <td>{{ ocupacion.nombre }}</td>
+          <td>{{ ocupacion.descripcion }}</td>
+        </tr>
+      </table>
     </div>
 
     <div class="InputsTablaAdicional">
@@ -41,8 +41,12 @@
 
     <div class="BotonesCrudTablaAd">
       <button v-on:click="metAgregarOcupacion">Agregar</button>
-      <button v-on:click="metActualizarOcupacion" v-if="is_auth" :key="is_auth">Actualizar</button>
-      <button v-on:click="metEliminarOcupacion" v-if="is_auth" :key="is_auth">Eliminar</button>
+      <button v-on:click="metActualizarOcupacion" v-if="is_auth" :key="is_auth">
+        Actualizar
+      </button>
+      <button v-on:click="metEliminarOcupacion" v-if="is_auth" :key="is_auth">
+        Eliminar
+      </button>
     </div>
   </div>
 </template>
@@ -76,18 +80,21 @@ export default {
     };
   },
 
-    created: function() {
-      this.metRectificarAutenticacion();
+  created: function () {
+    this.metRectificarAutenticacion();
   },
 
   methods: {
     metVerificarAutenticado: function () {
-      if (localStorage.getItem("token_access") === null || localStorage.getItem("token_refresh") === null) {
+      if (
+        localStorage.getItem("token_access") === null ||
+        localStorage.getItem("token_refresh") === null
+      ) {
         this.is_auth = false;
         localStorage.setItem("is_auth", false);
-        this.$emit('msjLogOutSuave');
+        this.$emit("msjLogOutSuave");
         return false;
-			}
+      }
 
       return true;
     },
@@ -97,16 +104,21 @@ export default {
         return;
       }
 
-      return axios.post(appData["direccionBack"] + "refresh/", {refresh: localStorage.getItem("token_refresh")}, {headers: {}})
-				.then((respuesta) => {
-					localStorage.setItem("token_access", respuesta.data.access);	
+      return axios
+        .post(
+          appData["direccionBack"] + "refresh/",
+          { refresh: localStorage.getItem("token_refresh") },
+          { headers: {} }
+        )
+        .then((respuesta) => {
+          localStorage.setItem("token_access", respuesta.data.access);
           localStorage.setItem("is_auth", true);
-          alert("Se rectifico la autenticacion en OcupacionesComp");
-				})
-				.catch(() => {
-					localStorage.setItem("is_auth", false);
-          this.$emit('msjLogOutSuave');
-				});
+          //alert("Se rectifico la autenticacion en OcupacionesComp");
+        })
+        .catch(() => {
+          localStorage.setItem("is_auth", false);
+          this.$emit("msjLogOutSuave");
+        });
     },
 
     metActualizarCampos: function (ocup) {
@@ -125,9 +137,13 @@ export default {
         )
         .then((respuesta) => {
           alert(
-            "Ocupacion agregada exitosamente!: "  + "\n\n" +
-              "Ocupacion: " + respuesta.data.registro.nombre + "\n" +
-              "Descripcion: " + respuesta.data.registro.descripcion
+            "Ocupacion agregada exitosamente!: " +
+              "\n\n" +
+              "Ocupacion: " +
+              respuesta.data.registro.nombre +
+              "\n" +
+              "Descripcion: " +
+              respuesta.data.registro.descripcion
           );
 
           // Borrar campos
@@ -136,7 +152,7 @@ export default {
             nombre: "",
             descripcion: "",
           };
-          
+
           // Actualizar Variable y Lista de ocupaciones en todos los componentes
           this.metActualizarListaOcupaciones();
         })
@@ -150,7 +166,7 @@ export default {
         "Se intentara registrar una ocupacion con los siguientes datos:" +
           Object.entries(this.ocupacionPrelim)
       );*/
-      
+
       if (!this.metVerificarAutenticado) {
         alert("Error: no está autenticado.");
         return;
@@ -160,17 +176,23 @@ export default {
 
       axios
         .put(
-          "http://127.0.0.1:8000/ocupaciones/" + this.ocupacionPrelim.id_ocupacion,
+          appData["direccionBack"] + "ocupaciones/" +
+            this.ocupacionPrelim.id_ocupacion,
           this.ocupacionPrelim,
-          {headers: {'Authorization': `Bearer ${token}`}}
-        ) 
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
         .then((respuesta) => {
           alert(
             "Ocupacion actualizada exitosamente!: \n\n" +
-              "id: " + respuesta.data.registro.id_ocupacion + "\n" +
-              "Ocupacion: " + this.ocupacionPrelim.nombre + "\n" +
-              "Descripcion: " + this.ocupacionPrelim.descripcion
-              //JSON.stringify(respuesta.data.registro, null, 2)
+              "id: " +
+              respuesta.data.registro.id_ocupacion +
+              "\n" +
+              "Ocupacion: " +
+              this.ocupacionPrelim.nombre +
+              "\n" +
+              "Descripcion: " +
+              this.ocupacionPrelim.descripcion
+            //JSON.stringify(respuesta.data.registro, null, 2)
           );
 
           // Borrar campos
@@ -179,7 +201,7 @@ export default {
             nombre: "",
             descripcion: "",
           };
-          
+
           // Actualizar Variable y Lista de ocupaciones en todos los componentes
           this.metActualizarListaOcupaciones();
         })
@@ -188,16 +210,23 @@ export default {
         });
     },
 
-    metBorrarOcupacion: function () {
-      
+    metEliminarOcupacion: function () {
+      if (!this.metVerificarAutenticado) {
+        alert("Error: no está autenticado.");
+        return;
+      }
+
+      let token = localStorage.getItem("token_access");
+
       axios
         .delete(
-          appData["direccionBack"] + "ocupaciones/",
-          this.ocupacionPrelim
+          appData["direccionBack"] + "ocupaciones/" +
+            this.ocupacionPrelim.id_ocupacion,
+          { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((respuesta) => {
           alert(
-            "Ocupacion actualizada exitosamente!: " +
+            "Ocupacion eliminada exitosamente!: " +
               //Object.entries(respuesta.data.registro)
               JSON.stringify(respuesta.data.registro, null, 2)
           );
@@ -208,12 +237,12 @@ export default {
             nombre: "",
             descripcion: "",
           };
-          
+
           // Actualizar Variable y Lista de ocupaciones en todos los componentes
           this.metActualizarListaOcupaciones();
         })
         .catch((error) => {
-          alert("Error agregando ocupacion: " + error);
+          alert("Error eliminando ocupacion: " + error);
         });
     },
 
