@@ -5,9 +5,6 @@
     <div class="ModalCuadro">
       <!-- Header -->
       <header class="modal-header">
-        <slot name="header">
-          <h2> {{ this.tablaModificandoProp == undefined? undefined : this.tablaModificandoProp.substring(0, 1).toUpperCase() + this.tablaModificandoProp.substring(1) }} </h2>
-        </slot>
         <button
           type="button"
           class="btn-close-X"
@@ -16,6 +13,9 @@
         >
           X
         </button>
+        <slot name="header">
+          <h2> {{ this.tablaModificandoProp == undefined? undefined : this.tablaModificandoProp.substring(0, 1).toUpperCase() + this.tablaModificandoProp.substring(1) }} </h2>
+        </slot>
       </header>
 
 
@@ -122,10 +122,24 @@ export default {
   overflow-x: auto;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .tablaAdicionales {
-    overflow:scroll;
-    height:50vh;
-  }
+  overflow:scroll;
+  height:50vh;
+}
+
+.btn-close-X{
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  font-size: 20px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: rgb(127, 157, 255);
+  background: transparent;
+}
 </style>
