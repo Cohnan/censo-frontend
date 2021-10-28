@@ -41,11 +41,11 @@
 
       </section>
 
-      <footer>
+      <!--footer>
         <button v-on:click="metCerrarModal" id="btnCerrarModal">
           Cerrar
         </button>
-      </footer>
+      </footer-->
     </div>
   </div>
 </template>
@@ -142,4 +142,10 @@ export default {
   color: rgb(127, 157, 255);
   background: transparent;
 }
+
+footer {
+  text-align: center;
+  margin: 10px;
+}
+
 </style>
