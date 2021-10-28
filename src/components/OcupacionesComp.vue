@@ -41,14 +41,15 @@
 
     <div class="BotonesCrudTablaAd">
       <button v-on:click="metAgregarOcupacion">Agregar</button>
-      <button v-on:click="metActualizarOcupacion">Actualizar</button>
-      <button v-on:click="metEliminarOcupacion">Eliminar</button>
+      <button v-on:click="metActualizarOcupacion" v-if="isAuth">Actualizar</button>
+      <button v-on:click="metEliminarOcupacion" v-if="isAuth">Eliminar</button>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios"; // Para procesar HTTP requests
+import appData from "../App.vue";
 
 export default {
   name: "OcupacionesComp",
@@ -70,10 +71,32 @@ export default {
         nombre: "",
         descripcion: "",
       },
+
+      isAuth: false,
     };
   },
 
+  created: function() {
+    this.metRectificarAutenticacion();
+  },
+
   methods: {
+    metRectificarAutenticacion: async function () {
+      if (localStorage.getItem("token_access") === null || localStorage.getItem("token_refresh") === null) {
+        isAuth = false;
+        return;
+			}
+
+      return axios.post(appData["direccionBack"] + "refresh/", {refresh: localStorage.getItem("token_refresh")}, {headers: {}})
+				.then((respuesta) => {
+					localStorage.setItem("token_access", respuesta.data.access);	
+          isAuth = true;	
+				})
+				.catch(() => {
+					isAuth = false;
+				});
+    },
+
     metActualizarCampos: function (ocup) {
       this.ocupacionPrelim = { ...ocup }; // Clonando shallow, no pasando referencia al objeto
     },
