@@ -81,12 +81,21 @@ export default {
   },
 
   methods: {
-    metRectificarAutenticacion: async function () {
+    metVerificarAutenticado: function () {
       if (localStorage.getItem("token_access") === null || localStorage.getItem("token_refresh") === null) {
+        this.is_auth = false;
         localStorage.setItem("is_auth", false);
         this.$emit('msjLogOutSuave');
-        return;
+        return false;
 			}
+
+      return true;
+    },
+
+    metRectificarAutenticacion: function () {
+      if (!this.metVerificarAutenticado) {
+        return;
+      }
 
       return axios.post(appData["direccionBack"] + "refresh/", {refresh: localStorage.getItem("token_refresh")}, {headers: {}})
 				.then((respuesta) => {
@@ -141,17 +150,26 @@ export default {
         "Se intentara registrar una ocupacion con los siguientes datos:" +
           Object.entries(this.ocupacionPrelim)
       );*/
+      
+      if (!this.metVerificarAutenticado) {
+        alert("Error: no está autenticado.");
+        return;
+      }
+
+      let token = localStorage.getItem("token_access");
+
       axios
         .put(
           "http://127.0.0.1:8000/ocupaciones/" + this.ocupacionPrelim.id_ocupacion,
-          this.ocupacionPrelim
+          this.ocupacionPrelim,
+          {headers: {'Authorization': `Bearer ${token}`}}
         ) 
         .then((respuesta) => {
           alert(
             "Ocupacion actualizada exitosamente!: \n\n" +
-              "id: " + respuesta.registro.id_ocupacion + "\n" +
-              "Ocupacion: " + this.ocupacionPrelim.ocupacion + " -> " + respuesta.data.registro.ocupacion + "\n" +
-              "Descripcion: " + this.ocupacionPrelim.descripcion + " -> " + respuesta.data.registro.descripcion
+              "id: " + respuesta.data.registro.id_ocupacion + "\n" +
+              "Ocupacion: " + this.ocupacionPrelim.nombre + "\n" +
+              "Descripcion: " + this.ocupacionPrelim.descripcion
               //JSON.stringify(respuesta.data.registro, null, 2)
           );
 
@@ -166,7 +184,7 @@ export default {
           this.metActualizarListaOcupaciones();
         })
         .catch((error) => {
-          alert("Error agregando ocupacion: " + error);
+          alert("Error actualizando ocupacion. " + error);
         });
     },
 
