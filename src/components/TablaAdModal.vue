@@ -148,4 +148,14 @@ footer {
   margin: 10px;
 }
 
+/* Estilos para botones CRUD Tablas Adicionales */
+
+.BotonesCrudTablaAd{
+  text-align: center;
+}
+
+.BotonesCrudTablaAd button {
+  margin: 10px;
+}
+
 </style>
