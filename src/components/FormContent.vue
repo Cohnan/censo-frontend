@@ -29,6 +29,7 @@
 
 <script>
 import axios from "axios";
+import appData from "../App.vue"
 export default {
   name: "FormContent",
   data: function() {
@@ -46,7 +47,7 @@ export default {
         .post(appData["direccionBack"] + "login/", this.user, { headers: {} })
         .then((result) => {
           let dataLogin = {
-            username: this.user.username,
+            email: this.user.email,
             token_access: result.data.access,
             token_refresh: result.data.refresh,
           };
