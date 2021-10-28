@@ -49,6 +49,7 @@
 
 <script>
 import axios from "axios"; // Para procesar HTTP requests
+import appData from "../App.vue"; // Data de App.vue
 
 export default {
   name: "ResguardosComp",
@@ -70,10 +71,51 @@ export default {
         nombre: "",
         descripcion: "",
       },
+
+      is_auth: localStorage.getItem("is_auth") || false,
     };
   },
 
+  created: function () {
+    this.metRectificarAutenticacion();
+  },
+
   methods: {
+    metVerificarAutenticado: function () {
+      if (
+        localStorage.getItem("token_access") === null ||
+        localStorage.getItem("token_refresh") === null
+      ) {
+        this.is_auth = false;
+        localStorage.setItem("is_auth", false);
+        this.$emit("msjLogOutSuave");
+        return false;
+      }
+
+      return true;
+    },
+
+    metRectificarAutenticacion: function () {
+      if (!this.metVerificarAutenticado) {
+        return;
+      }
+
+      return axios
+        .post(
+          appData["direccionBack"] + "refresh/",
+          { refresh: localStorage.getItem("token_refresh") },
+          { headers: {} }
+        )
+        .then((respuesta) => {
+          localStorage.setItem("token_access", respuesta.data.access);
+          localStorage.setItem("is_auth", true);
+          //alert("Se rectifico la autenticacion en OcupacionesComp");
+        })
+        .catch(() => {
+          localStorage.setItem("is_auth", false);
+          this.$emit("msjLogOutSuave");
+        });
+    },
     metActualizarCampos: function (ocup) {
       this.resguardoPrelim = { ...ocup }; // Clonando shallow, no pasando referencia al objeto
     },
@@ -91,8 +133,12 @@ export default {
         .then((respuesta) => {
           alert(
             "Resguardo agregada exitosamente!: " +
-              //Object.entries(respuesta.data.registro)
-              JSON.stringify(respuesta.data.registro, null, 2)
+              "\n\n" +
+              "Ocupacion: " +
+              respuesta.data.registro.nombre +
+              "\n" +
+              "Descripcion: " +
+              respuesta.data.registro.descripcion
           );
 
           // Borrar campos
@@ -115,16 +161,33 @@ export default {
         "Se intentara registrar una resguardo con los siguientes datos:" +
           Object.entries(this.resguardoPrelim)
       );*/
+
+      if (!this.metVerificarAutenticado) {
+        alert("Error: no está autenticado.");
+        return;
+      }
+
+      let token = localStorage.getItem("token_access");
+
       axios
         .put(
-          "http://127.0.0.1:8000/resguardos/",
-          this.resguardoPrelim
+          appData["direccionBack"] + "resguardos/" +
+            this.resguardoPrelim.id_resguardo,
+          this.resguardoPrelim,
+          { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((respuesta) => {
           alert(
-            "Resguardo actualizado exitosamente!: " +
-              //Object.entries(respuesta.data.registro)
-              JSON.stringify(respuesta.data.registro, null, 2)
+            "Resguardo actualizada exitosamente!: \n\n" +
+              "id: " +
+              respuesta.data.registro.id_resguardo +
+              "\n" +
+              "Resguardo: " +
+              this.resguardoPrelim.nombre +
+              "\n" +
+              "Descripcion: " +
+              this.resguardoPrelim.descripcion
+            //JSON.stringify(respuesta.data.registro, null, 2)
           );
 
           // Borrar campos
@@ -133,12 +196,46 @@ export default {
             nombre: "",
             descripcion: "",
           };
-          
+
           // Actualizar Variable y Lista de resguardos en todos los componentes
           this.metActualizarListaResguardos();
         })
         .catch((error) => {
-          alert("Error agregando resguardo: " + error);
+          alert("Error actualizando resguardo. " + error);
+        });
+    },
+
+    metEliminarResguardo: function () {
+      if (!this.metVerificarAutenticado) {
+        alert("Error: no está autenticado.");
+        return;
+      }
+
+      let token = localStorage.getItem("token_access");
+
+      axios
+        .delete(
+          appData["direccionBack"] + "resguardos/" +
+            this.resguardoPrelim.id_resguardo,
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((respuesta) => {
+          alert(
+            "Resguardo eliminada exitosamente!: "
+          );
+
+          // Borrar campos
+          this.resguardoPrelim = {
+            id_resguardo: "",
+            nombre: "",
+            descripcion: "",
+          };
+
+          // Actualizar Variable y Lista de resguardos en todos los componentes
+          this.metActualizarListaResguardos();
+        })
+        .catch((error) => {
+          alert("Error eliminando resguardo: " + error);
         });
     },
 

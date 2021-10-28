@@ -53,7 +53,7 @@
 
 <script>
 import axios from "axios"; // Para procesar HTTP requests
-import appData from "../App.vue";
+import appData from "../App.vue"; // Data de App.vue
 
 export default {
   name: "OcupacionesComp",
@@ -226,9 +226,7 @@ export default {
         )
         .then((respuesta) => {
           alert(
-            "Ocupacion eliminada exitosamente!: " +
-              //Object.entries(respuesta.data.registro)
-              JSON.stringify(respuesta.data.registro, null, 2)
+            "Ocupacion eliminada exitosamente!"
           );
 
           // Borrar campos
