@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import Censar from "../components/Censar.vue"
 import FormContent from "../components/FormContent.vue";
 import Tabla from "../components/Tabla.vue";
-import Registrar from "../views/Registrar.vue";
 
 const routes = [
   {
@@ -25,12 +24,6 @@ const routes = [
     path: "/form",
     name: "Form",
     component: FormContent,
-  },
-
-  {
-    path: "/registrar",
-    name: "Registrar",
-    component: Registrar,
   },
 
   {
