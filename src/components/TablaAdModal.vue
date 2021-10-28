@@ -6,7 +6,7 @@
       <!-- Header -->
       <header class="modal-header">
         <slot name="header">
-          <h2> {{ this.tablaModificandoProp }} </h2>
+          <h2> {{ this.tablaModificandoProp == undefined? undefined : this.tablaModificandoProp.substring(0, 1).toUpperCase() + this.tablaModificandoProp.substring(1) }} </h2>
         </slot>
         <button
           type="button"
