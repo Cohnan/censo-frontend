@@ -84,7 +84,7 @@ export default {
       );*/
       axios
         .post(
-          "http://127.0.0.1:8000/etnias/agregar/",
+          appData["direccionBack"] + "etnias/agregar/",
           this.etniaPrelim
         )
         .then((respuesta) => {
@@ -116,7 +116,7 @@ export default {
       );*/
       axios
         .put(
-          "http://127.0.0.1:8000/etnias/",
+          appData["direccionBack"] + "etnias/",
           this.etniaPrelim
         )
         .then((respuesta) => {
@@ -144,7 +144,7 @@ export default {
     metActualizarListaEtnias: function () {
       // Actualizar lista de Etnias
       axios
-        .get("http://127.0.0.1:8000/etnias/")
+        .get(appData["direccionBack"] + "etnias/")
         .then((respuesta) => {
           /*alert(
             "Exito GET respuesta.data " +

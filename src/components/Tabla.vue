@@ -65,7 +65,7 @@ export default {
       let token = localStorage.getItem("token_access");
 
       axios
-        .get("http://127.0.0.1:8000/censoIndigena/personas/", {
+        .get(appData["direccionBack"] + "censoIndigena/personas/", {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((result) => {
