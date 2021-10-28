@@ -24,6 +24,7 @@
       <OcupacionesComp v-if="tablaModificandoProp == 'ocupaciones'"
         :registrosProp="this.registrosProp"
         v-on:MsjActualizadasOcupaciones="metReenviarMsjOcupaciones"
+        v-on:msjLogOutSuave="metReenviarMsjLogOutSuave"
         :key="this.registrosProp[this.registrosProp.length -1]"
       />
 
@@ -87,6 +88,10 @@ export default {
       );*/
       this.$emit("MsjActualizadosResguardos");
     },
+
+    metReenviarMsjLogOutSuave: function() {
+      this.$emit("msjLogOutSuaveReenv");
+    }
   },
 
   components: {

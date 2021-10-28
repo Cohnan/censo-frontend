@@ -15,13 +15,13 @@
     
 
       <div class="registrarbutton">
-        <button id="buttonreg" v-if="!is_auth" v-on:click="loadLogin">
+        <button id="buttonreg" v-if="!is_auth" :key="is_auth" v-on:click="loadLogin">
           Iniciar Sesion
         </button>
       </div>
 
       <div class="registrarbutton" id="buttoncerrar">
-        <button to="/form" id="buttonreg" v-if="is_auth" v-on:click="logOut">
+        <button to="/form" id="buttonreg" v-if="is_auth" :key="is_auth"  v-on:click="logOut">
           Salir
         </button>
       </div>
@@ -33,12 +33,12 @@
 
     <div id="content">
 
-      <router-view v-on:completedLogin="completedLogin" v-on:logOut="logOut">
+      <router-view v-on:completedLogin="completedLogin" v-on:logOut="logOut" v-on:msjLogOutSuaveReReenv="logOutSuave">
       </router-view>
     </div>
 
     <div class="footer">
-      <h2>Mision tic 2021 Grupo 2</h2>
+      <h2>Mision TIC 2021 - Equipo 2, Grupo 8</h2>
     </div>
   </body>
 
@@ -46,13 +46,13 @@
 <script>
 export default {
   name: "App",
-  direccionBack: "https://censoindigena.herokuapp.com/",
-  //direccionBack: "http://localhost:8000/",
+  //direccionBack: "https://censoindigena.herokuapp.com/",
+  direccionBack: "http://localhost:8000/",
 
   data: function() {
     return {
-      username: localStorage.getItem("username"),
-      is_auth: false,
+      username: localStorage.getItem("email"),
+      is_auth: localStorage.getItem("is_auth") == undefined? false : localStorage.getItem("is_auth"),
     };
   },
   components: {},
@@ -73,7 +73,7 @@ export default {
 
     completedLogin: function(data) {
       localStorage.setItem("is_auth", true);
-      localStorage.setItem("username", data.username);
+      localStorage.setItem("email", data.email);
       localStorage.setItem("token_access", data.token_access);
       localStorage.setItem("token_refresh", data.token_refresh);
       alert("Autenticacion exitosa");
@@ -85,6 +85,14 @@ export default {
       alert("Sesión terminada");
       this.verifyAuth();
     },
+
+    logOutSuave: function() {
+      localStorage.clear();
+      alert("Sesión terminada");
+      this.is_auth = false;
+      localStorage.setItem("is_auth", false);
+
+    }
   },
 
   created: function() {

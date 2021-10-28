@@ -72,7 +72,7 @@ export default {
         descripcion: "",
       },
 
-      is_auth: localStorage.getItem("is_auth"),
+      is_auth: localStorage.getItem("is_auth") || false,
     };
   },
 
@@ -84,7 +84,7 @@ export default {
     metRectificarAutenticacion: async function () {
       if (localStorage.getItem("token_access") === null || localStorage.getItem("token_refresh") === null) {
         localStorage.setItem("is_auth", false);
-        //this.$emit('logOutSuave');
+        this.$emit('msjLogOutSuave');
         return;
 			}
 
@@ -96,7 +96,7 @@ export default {
 				})
 				.catch(() => {
 					localStorage.setItem("is_auth", false);
-          //this.$emit('logOutSuave');
+          this.$emit('msjLogOutSuave');
 				});
     },
 
@@ -143,7 +143,7 @@ export default {
       );*/
       axios
         .put(
-          "http://127.0.0.1:8000/ocupaciones/" + this.ocupacionPrelim["id_ocupacion"] + "/",
+          "http://127.0.0.1:8000/ocupaciones/" + this.ocupacionPrelim.id_ocupacion,
           this.ocupacionPrelim
         ) 
         .then((respuesta) => {
