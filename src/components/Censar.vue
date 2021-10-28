@@ -1,9 +1,9 @@
 <!-- Parte HTML de mi componente -->
 <template>
-  <div class="cajaFormulario">
-    <h2>Agregar Persona</h2>
+  <div id="cajaFormularioPersona">
+    <h1>Agregar Persona</h1>
 
-    <form v-on:submit.prevent="metAgregarPersona">
+    <form v-on:submit.prevent="metAgregarPersona" class="formagregar">
       <!-- Tipo de Documento -->
       <select
         name="Nombre Combobox Tipo de Doc"
@@ -70,7 +70,11 @@
       <br />
 
       <!-- Ocupación -->
-      <select id="inpOcupacion" v-model="persona.id_ocupacion" :key="this.ocupaciones">
+      <select
+        id="inpOcupacion"
+        v-model="persona.id_ocupacion"
+        :key="this.ocupaciones"
+      >
         <option value="null">Ocupación</option>
         <option
           v-for="ocupacion in ocupaciones"
@@ -109,35 +113,37 @@
       <br />
 
       <!-- Enviar Formulario -->
-      <button type="submit">Agregar</button>
+      <button type="submit" class="botonCrud">Agregar</button>
+
       <br />
     </form>
 
     <!-- Botones para abrir Modal (Popup) con CRUD de las tablas adicionales -->
-    <div class="ActualizarTablas">
-      <button v-on:click="metAbrirMOcupaciones"> Agregar Ocupación </button>
-      <button v-on:click="metAbrirMEtnias"> Agregar Etnias </button>
-      <button v-on:click="metAbrirMResguardos"> Agregar Resguardos </button>
+    <div id="BtnsActualizarTablas">
+      <button v-on:click="metAbrirMOcupaciones" class="botonCrud">
+        Agregar Ocupación
+      </button>
+      <button v-on:click="metAbrirMEtnias" class="botonCrud">
+        Agregar Etnias
+      </button>
+      <br/>
+      <button v-on:click="metAbrirMResguardos" class="botonCrud">
+        Agregar Resguardos
+      </button>
+    <div/>
 
       <ModalTablaAdComp
         v-show="modalEsVisible"
         v-on:msjCerrarModal="metCerrarModal"
-
         v-on:MsjActualizadasOcupaciones="metTraerOcupaciones"
         v-on:MsjActualizadasEtnias="metTraerEtnias"
         v-on:MsjActualizadosResguardos="metTraerResguardos"
-
         :registrosProp="this.registrosTA"
         :tablaModificandoProp="this.tablaEnModal"
-        :key="this.registrosTA[this.registrosTA.length -1]"       
+        :key="this.registrosTA[this.registrosTA.length - 1]"
       />
-
-
     </div>
-    
   </div>
-
-  <div>Caja en Censar.vue, luego de la caja de formulario <br /></div>
 </template>
 
 
@@ -149,6 +155,7 @@
 <script>
 import axios from "axios"; // Para procesar HTTP requests
 import ModalTablaAdComp from "./TablaAdModal.vue"; // Importar el componente de Ocupaciones
+import appData from "../App.vue";
 
 export default {
   //Nombre del componente?
@@ -173,6 +180,17 @@ export default {
         id_ocupacion: null,
         id_etnia: null,
         id_resguardo: null,
+      },
+
+      personaImprimir: {
+        tipo_doc: "Tipo de Documento",
+        doc_id: "Numero de Documento",
+        nombre: "Nombre",
+        fechadenacimiento: "Fecha de Nacimiento",
+        departamento: "Departamento de Residencia",
+        ocupacion: "Ocupacion",
+        etnia: "Etnia",
+        resguardo: "Resguardo"
       },
 
       // JSON de tipos de documentos: la llave es el valor que se envía, el valor es lo que el usuario lee
@@ -201,7 +219,8 @@ export default {
   },
 
   // Funcion a ejecutar al cargar la pagina
-  created: function () { 
+  created: function () {
+    //alert("Direccion = " + JSON.stringify(appData["direccionBack"], 2));
     this.metTraerOcupaciones();
     this.metTraerEtnias();
     this.metTraerResguardos();
@@ -218,9 +237,31 @@ export default {
       );*/
 
       axios
-        .post("http://127.0.0.1:8000/censoIndigena/censar/", this.persona)
+        .post(appData["direccionBack"] + "censoIndigena/censar/", this.persona)
         .then((respuesta) => {
-          alert("Persona agregada exitosamente!: " + JSON.stringify(respuesta.data.registro, null, 2));
+          // Alerta con datos registrados
+          let personaString = "";
+
+          for (const [llave, valor] of Object.entries(this.personaImprimir)) {
+            personaString += valor + ": " + respuesta.data.registro[llave] +  "\n";
+          }
+
+          alert(
+            "Persona agregada exitosamente!\n\n" + personaString
+              //JSON.stringify(respuesta.data.registro, null, 2)
+          );
+          
+          // Borrar campos
+          this.persona = {
+            tipo_doc: "",
+            doc_id: null,
+            nombre: "",
+            fechadenacimiento: "1900-01-01",
+            departamento: "",
+            id_ocupacion: null,
+            id_etnia: null,
+            id_resguardo: null,
+          };
         })
         .catch((error) => {
           alert("Errores: " + error);
@@ -229,40 +270,40 @@ export default {
 
     metTraerOcupaciones: async function () {
       axios
-        .get("http://127.0.0.1:8000/ocupaciones/")
+        .get(appData["direccionBack"] + "ocupaciones/")
         .then((respuesta) => {
           this.ocupaciones = respuesta.data;
           //alert("ID ultima ocupacion (en Censar.vue): " + this.ocupaciones[this.ocupaciones.length -1].id_ocupacion)
           this.registrosTA = this.ocupaciones;
         })
         .catch((error) => {
-          alert("Errores: ", error);
+          alert("Error trayendo Ocupaciones de " + appData["direccionBack"] + error);
         });
     },
 
     metTraerEtnias: async function () {
       axios
-        .get("http://127.0.0.1:8000/etnias/")
+        .get(appData["direccionBack"] + "etnias/")
         .then((respuesta) => {
           this.etnias = respuesta.data;
 
           this.registrosTA = this.etnias;
         })
         .catch((error) => {
-          alert("Errores: ", error);
+          alert("Error trayendo Etnias " + appData["direccionBack"] + error);
         });
     },
 
     metTraerResguardos: async function () {
       axios
-        .get("http://127.0.0.1:8000/resguardos/")
+        .get(appData["direccionBack"] + "resguardos/")
         .then((respuesta) => {
           this.resguardos = respuesta.data;
-          
+
           this.registrosTA = this.resguardos;
         })
         .catch((error) => {
-          alert("Errores: ", error);
+          alert("Error trayendo Resguardos " + appData["direccionBack"] + error);
         });
     },
 
@@ -295,5 +336,35 @@ export default {
 
 <!-- Parte CSS de mi componente -->
 <style>
-  
+#cajaFormularioPersona {
+  padding-top: 50px;
+  align-items: center;
+}
+
+.formagregar {
+  padding-top: 20px;
+  padding-bottom: 5px;
+  margin: auto;
+  margin-top: 20px;
+  min-width: 200px;
+  width: 50%;
+  max-width: 600px;
+  height: 420px;
+}
+
+#BtnsActualizarTablas {
+  padding-top: 0px;
+  justify-items: top;
+  justify-content: top;
+}
+
+.botonCrud {
+  transform-origin: center center;
+  width: 130px;
+  height: 35px;
+  /*align-self: center;*/
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
 </style>

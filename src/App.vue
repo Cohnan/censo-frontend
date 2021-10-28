@@ -2,12 +2,28 @@
 
   <body>
     <div id="nav">
-      <router-link to="/" id="linknav">Registros</router-link> |
-    <router-link to="/censoIndigena" id="linkAgregar">Agregar</router-link>|
-    <router-link to="" id="linknav">Estadisticas</router-link>
+
+    
+      <router-link to="/tabla" id="linknav" v-if="is_auth">
+        Registros</router-link>
+      |
+      <router-link to="/censoIndigena" id="linknav">Agregar</router-link>
+      |
+      <router-link to="" id="linknav">Estadisticas</router-link>|
+
+      <!--router-link to="/registrar" id="linknav">Agregar 2</router-link-->
+    
 
       <div class="registrarbutton">
-        <a id="buttonreg" href="#" class="button">Ingresar</a>
+        <button id="buttonreg" v-if="!is_auth" v-on:click="loadLogin">
+          Iniciar Sesion
+        </button>
+      </div>
+
+      <div class="registrarbutton" id="buttoncerrar">
+        <button to="/form" id="buttonreg" v-if="is_auth" v-on:click="logOut">
+          Salir
+        </button>
       </div>
 
       <div class="title">
@@ -16,30 +32,64 @@
     </div>
 
     <div id="content">
-      <h1>content</h1>
 
-      <router-view/>
+      <router-view v-on:completedLogin="completedLogin" v-on:logOut="logOut">
+      </router-view>
     </div>
 
-    <div id="footer">
-      <footer>
-        <h1>footer</h1>
-      </footer>
+    <div class="footer">
+      <h2>Mision tic 2021 Grupo 2</h2>
     </div>
   </body>
 
-
-  
-  App.vue, despues del router-view
-
-  <!-- <router-view />-->
 </template>
-
-
 <script>
 export default {
-  name : "ComponentePrincipal",
+  name: "App",
+  direccionBack: "https://censoindigena.herokuapp.com/",
+  //direccionBack: "http://localhost:8000/",
 
+  data: function() {
+    return {
+      username: localStorage.getItem("username"),
+      is_auth: false,
+    };
+  },
+  components: {},
+
+  methods: {
+    verifyAuth: function() {
+      this.is_auth = localStorage.getItem("is_auth") || false;
+      if (this.is_auth == false) {
+        this.$router.push({ name: "Form" });
+      } else {
+        this.$router.push({ name: "Tabla" });
+      }
+    },
+
+    loadLogin: function() {
+      this.$router.push({ name: "Form" });
+    },
+
+    completedLogin: function(data) {
+      localStorage.setItem("is_auth", true);
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("token_access", data.token_access);
+      localStorage.setItem("token_refresh", data.token_refresh);
+      alert("Autenticacion exitosa");
+      this.verifyAuth();
+    },
+
+    logOut: function() {
+      localStorage.clear();
+      alert("Sesión terminada");
+      this.verifyAuth();
+    },
+  },
+
+  created: function() {
+    this.verifyAuth();
+  },
 };
 </script>
 
@@ -59,9 +109,11 @@ export default {
 }
 
 #nav {
-  padding: 15px;
+  padding: 9px;
   background-color: rgb(127, 157, 255);
-  width: 100%;
+  width: 99%;
+  padding-bottom: 15px;
+  padding-top: 15px;
 }
 
 #nav {
@@ -99,19 +151,25 @@ export default {
   border: 2px solid;
   border-radius: 15px;
   border-color: #f1e53c;
-  width: 80px;
+  width: 120px;
   padding: 10px;
   margin: 0px;
-  height: 16px;
+  height: 45px;
   text-align: center;
   text-decoration: none;
+  transition: 0.5s;
+}
+
+#buttonreg:hover {
+  background-color: #eceff1;
+  color: rgb(127, 157, 255);
 }
 
 .registrarbutton {
   position: absolute;
   width: 10%;
   margin-left: 80%;
-  margin-top: -8px;
+  margin-top: -25px;
 }
 
 .title {
@@ -123,10 +181,13 @@ export default {
 }
 
 #content {
-  height: 830px;
+  height: 878px;
 }
 
-#footer {
+.footer {
+  color: #eceff1;
+  padding: 9px;
+  width: 99%;
   height: 55px;
   background-color: rgb(127, 157, 255);
 }
