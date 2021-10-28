@@ -182,6 +182,11 @@ export default {
         id_resguardo: null,
       },
 
+      personaImprimir: {
+        tipo_doc: "Tipo de Documento",
+        doc_id: "Numero de Documento"
+      },
+
       // JSON de tipos de documentos: la llave es el valor que se envía, el valor es lo que el usuario lee
       tipoDocumentos: {
         CC: "Cédula de Ciudadanía",
@@ -228,17 +233,21 @@ export default {
       axios
         .post(appData["direccionBack"] + "censoIndigena/censar/", this.persona)
         .then((respuesta) => {
-          let personaString = "";
-
-          for (let [key, value] in Object.entries(respuesta.data.registro)) {
-            personaString += key.toUpperCase() + ": " + value;
-          }
 
           alert(
-            "Persona agregada exitosamente!: " + personaString
+            "Persona agregada exitosamente!"
               //JSON.stringify(respuesta.data.registro, null, 2)
           );
 
+          let personaString = "";
+
+          for (const [llave, valor] of Object.entries(this.personaImprimir)) {
+            personaString += valor + ": " + respuesta.data.registro[llave] +  "\n";
+          }
+
+          alert(personaString);
+          
+          // Borrar campos
           this.persona = {
             tipo_doc: "",
             doc_id: null,
