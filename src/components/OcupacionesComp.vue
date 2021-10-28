@@ -44,7 +44,7 @@
       <button v-on:click="metActualizarOcupacion" v-if="is_auth" :key="is_auth">
         Actualizar
       </button>
-      <button v-on:click="metEliminarOcupacion" v-if="is_auth" :key="is_auth">
+      <button v-on:click="metEliminarOcupacion" v-if="is_auth" :key="is_auth" class="botonDelete">
         Eliminar
       </button>
     </div>

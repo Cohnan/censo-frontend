@@ -42,7 +42,7 @@
     <div class="BotonesCrudTablaAd">
       <button v-on:click="metAgregarResguardo">Agregar</button>
       <button v-on:click="metActualizarResguardo">Actualizar</button>
-      <button v-on:click="metEliminarResguardo">Eliminar</button>
+      <button v-on:click="metEliminarResguardo" class="botonDelete">Eliminar</button>
     </div>
   </div>
 </template>

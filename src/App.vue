@@ -204,4 +204,16 @@ body {
   margin: 0;
   padding: 0;
 }
+
+button {
+  cursor: pointer;
+}
+
+.botonDelete {
+  background-color: rgb(250, 124, 124);
+}
+
+.botonDelete:hover {
+  background-color: rgb(248, 46, 46);
+}
 </style>

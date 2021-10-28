@@ -42,7 +42,7 @@
     <div class="BotonesCrudTablaAd">
       <button v-on:click="metAgregarEtnia">Agregar</button>
       <button v-on:click="metActualizarEtnia" v-if="is_auth" :key="is_auth">Actualizar</button>
-      <button v-on:click="metEliminarEtnia" v-if="is_auth" :key="is_auth">Eliminar</button>
+      <button v-on:click="metEliminarEtnia" v-if="is_auth" :key="is_auth" class="botonDelete">Eliminar</button>
     </div>
   </div>
 </template>
