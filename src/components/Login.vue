@@ -98,7 +98,10 @@
     width: 40%;
     height: 60%;
     display: flex;
-    background-color: #f0add9; 
+    background-color: #f3f1f1; 
+    border: 2px solid;
+    border-radius: 15px;
+    border-color: #0072f4;
     border-radius: 1cm; 
     align-items: center;
     justify-content: center;
