@@ -25,6 +25,7 @@
         type="text"
         placeholder="id"
         v-model="ocupacionPrelim.id_ocupacion"
+        disabled
       />
       <input
         type="text"

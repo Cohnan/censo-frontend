@@ -25,6 +25,7 @@
         type="text"
         placeholder="id"
         v-model="etniaPrelim.id_etnia"
+        disabled
       />
       <input
         type="text"

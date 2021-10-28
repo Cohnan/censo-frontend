@@ -25,6 +25,7 @@
         type="text"
         placeholder="id"
         v-model="resguardoPrelim.id_resguardo"
+        disabled
       />
       <input
         type="text"
