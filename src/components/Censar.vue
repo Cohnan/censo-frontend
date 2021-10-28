@@ -367,4 +367,43 @@ export default {
   margin-left: 5px;
   margin-right: 5px;
 }
+
+#formagregar {
+  width: 600px;
+  height: 600px;
+}
+
+input {
+  margin-top: 25px;
+}
+
+#buttonregistrar {
+  width: 130px;
+  height: 35px;
+  margin-left: 5px;
+  margin-top: 10px;
+}
+
+#inpResguardo {
+  margin-top: 10px;
+}
+
+#inpEtnia {
+  margin-top: 10px;
+}
+
+#inpOcupacion {
+  margin-top: 10px;
+}
+
+#inpDepartamento {
+  margin-top: 10px;
+}
+
+select {
+  border: 2px solid;
+  width: 200px;
+  height: 30px;
+  border-color: rgb(100, 133, 224);
+}
 </style>
