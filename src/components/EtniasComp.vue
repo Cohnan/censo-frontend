@@ -25,6 +25,7 @@
         type="text"
         placeholder="id"
         v-model="etniaPrelim.id_etnia"
+        disabled
       />
       <input
         type="text"
@@ -40,14 +41,15 @@
 
     <div class="BotonesCrudTablaAd">
       <button v-on:click="metAgregarEtnia">Agregar</button>
-      <button v-on:click="metActualizarEtnia">Actualizar</button>
-      <button v-on:click="metEliminarEtnia">Eliminar</button>
+      <button v-on:click="metActualizarEtnia" v-if="is_auth" :key="is_auth">Actualizar</button>
+      <button v-on:click="metEliminarEtnia" v-if="is_auth" :key="is_auth">Eliminar</button>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios"; // Para procesar HTTP requests
+import appData from "../App.vue"; // Data de App.vue
 
 export default {
   name: "EtniasComp",
@@ -69,10 +71,53 @@ export default {
         nombre: "",
         descripcion: "",
       },
+
+      is_auth: localStorage.getItem("is_auth") || false,
     };
+  },
+  
+  
+  created: function () {
+    this.metRectificarAutenticacion();
   },
 
   methods: {
+    metVerificarAutenticado: function () {
+      if (
+        localStorage.getItem("token_access") === null ||
+        localStorage.getItem("token_refresh") === null
+      ) {
+        this.is_auth = false;
+        localStorage.setItem("is_auth", false);
+        this.$emit("msjLogOutSuave");
+        return false;
+      }
+
+      return true;
+    },
+
+    metRectificarAutenticacion: function () {
+      if (!this.metVerificarAutenticado) {
+        return;
+      }
+
+      return axios
+        .post(
+          appData["direccionBack"] + "refresh/",
+          { refresh: localStorage.getItem("token_refresh") },
+          { headers: {} }
+        )
+        .then((respuesta) => {
+          localStorage.setItem("token_access", respuesta.data.access);
+          localStorage.setItem("is_auth", true);
+          //alert("Se rectifico la autenticacion en OcupacionesComp");
+        })
+        .catch(() => {
+          localStorage.setItem("is_auth", false);
+          this.$emit("msjLogOutSuave");
+        });
+    },
+
     metActualizarCampos: function (ocup) {
       this.etniaPrelim = { ...ocup }; // Clonando shallow, no pasando referencia al objeto
     },
@@ -90,8 +135,12 @@ export default {
         .then((respuesta) => {
           alert(
             "Etnia agregada exitosamente!: " +
-              //Object.entries(respuesta.data.registro)
-              JSON.stringify(respuesta.data.registro, null, 2)
+              "\n\n" +
+              "Etnia: " +
+              respuesta.data.registro.nombre +
+              "\n" +
+              "Descripcion: " +
+              respuesta.data.registro.descripcion
           );
 
           // Borrar campos
@@ -114,16 +163,33 @@ export default {
         "Se intentara registrar una etnia con los siguientes datos:" +
           Object.entries(this.etniaPrelim)
       );*/
+
+      if (!this.metVerificarAutenticado) {
+        alert("Error: no está autenticado.");
+        return;
+      }
+
+      let token = localStorage.getItem("token_access");
+
       axios
         .put(
-          appData["direccionBack"] + "etnias/",
-          this.etniaPrelim
+          appData["direccionBack"] + "etnias/" +
+            this.etniaPrelim.id_etnia,
+          this.etniaPrelim,
+          { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((respuesta) => {
           alert(
-            "Etnia actualizada exitosamente!: " +
-              //Object.entries(respuesta.data.registro)
-              JSON.stringify(respuesta.data.registro, null, 2)
+            "Etnia actualizada exitosamente!: \n\n" +
+              "id: " +
+              respuesta.data.registro.id_etnia +
+              "\n" +
+              "Etnia: " +
+              this.etniaPrelim.nombre +
+              "\n" +
+              "Descripcion: " +
+              this.etniaPrelim.descripcion
+            //JSON.stringify(respuesta.data.registro, null, 2)
           );
 
           // Borrar campos
@@ -132,12 +198,46 @@ export default {
             nombre: "",
             descripcion: "",
           };
-          
+
           // Actualizar Variable y Lista de etnias en todos los componentes
           this.metActualizarListaEtnias();
         })
         .catch((error) => {
-          alert("Error agregando etnia: " + error);
+          alert("Error actualizando etnia. " + error);
+        });
+    },
+
+    metEliminarEtnia: function () {
+      if (!this.metVerificarAutenticado) {
+        alert("Error: no está autenticado.");
+        return;
+      }
+
+      let token = localStorage.getItem("token_access");
+
+      axios
+        .delete(
+          appData["direccionBack"] + "etnias/" +
+            this.etniaPrelim.id_etnia,
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((respuesta) => {
+          alert(
+            "Etnia eliminada exitosamente!"
+          );
+
+          // Borrar campos
+          this.etniaPrelim = {
+            id_etnia: "",
+            nombre: "",
+            descripcion: "",
+          };
+
+          // Actualizar Variable y Lista de etnias en todos los componentes
+          this.metActualizarListaEtnias();
+        })
+        .catch((error) => {
+          alert("Error eliminando etnia: " + error);
         });
     },
 
